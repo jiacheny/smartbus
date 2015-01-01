@@ -120,7 +120,7 @@
 			$content = substr($content,0,-1);
 
 			$filename = date('Ymd',$time);
-			$tempfile = fopen("data/timetable/".$lineID."/".$dirID."/".$filename.".xls",w);
+			$tempfile = fopen("data/timetable/".$lineID."/regular/".$dirID."/".$filename.".xls",w);
 			fwrite($tempfile, $content);			
 			fclose($tempfile);
 			
