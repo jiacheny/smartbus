@@ -22,4 +22,6 @@
 		//Destroy all session data.
 		session_destroy();
 	}
+	
+	
 ?>

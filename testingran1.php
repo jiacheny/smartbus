@@ -1,6 +1,6 @@
 <?php
-	require_once("API_Function.php");
 	require_once("dataReaderFunction.php");
+	require_once("Common_Function.php");
 ?>
 
 <!DOCTYPE html>
@@ -31,6 +31,9 @@
 			$tableA = [];
 			$content = "";
 			$optionalLocation = readOptionalStopFile(905);
+			$runids = getrunid($lineID,$dir,date('Y-m-d\Z'));
+			print_r(array_values($runids));
+
 			
 			//echo "DATE : ".date("Y/m/d H:i:s");
 			//echo "TIME ZONE: ".date_default_timezone_get()."\n";	
