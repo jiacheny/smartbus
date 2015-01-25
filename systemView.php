@@ -22,8 +22,6 @@
 				<h2>System View</h2>
 				<div id="routenumberinfo"> <?php showLineRouteNumber(); ?> </div>
 				<div id="directioninfo" style="height: 100px; width: 100px; background-color: yellow; margin: auto;"></div>
-				
-				<p> <?php getDirectionInfo("905"); ?> </p>
 			</div>
 			<?php include './include/footer.inc';?>
 			
