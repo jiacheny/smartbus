@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="./css/font-awesome-4.3.0/css/font-awesome.min.css"/>
 		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="js/systemView.js"></script>
 		<title>System View</title>
 	</head>
 
@@ -20,7 +21,9 @@
 			<div style="text-align: center">
 				<h2>System View</h2>
 				<div id="routenumberinfo"> <?php showLineRouteNumber(); ?> </div>
-				<div id="directioninfo"> </div>
+				<div id="directioninfo" style="height: 100px; width: 100px; background-color: yellow; margin: auto;"></div>
+				
+				<p> <?php getDirectionInfo("905"); ?> </p>
 			</div>
 			<?php include './include/footer.inc';?>
 			
