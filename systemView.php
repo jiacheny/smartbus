@@ -24,6 +24,12 @@
 				<div id="routenumberinfo"> <?php showLineRouteNumber(); ?> </div>
 				<div id="directioninfo" style="margin: auto;"> <p> Select a route above </p> <p> and select a direction </p> </div>
 				<div id="map" style="width: 800px; height: 600px; margin: auto;"></div>
+				<div id="legend">
+					<img src="images/originalmarker.png">
+					<span> Regular Stops </span>
+					<img src="images/bluemarker.png">
+					<span> Optional Stops </span>
+				</div>
 			</div>
 			<?php include './include/footer.inc';?>
 			
