@@ -118,7 +118,7 @@
 				
 			}
 
-			$filename = date('Ymd');
+			$filename = date('Ymd',$time);
 			$tempfile = fopen("data/timetable/".$lineID."/".$dirID."/".$filename.".xls",w);
 			fwrite($tempfile, $content);			
 			fclose($tempfile);
