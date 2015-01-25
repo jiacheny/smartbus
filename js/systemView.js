@@ -3,7 +3,7 @@ $(document).ready(function(){
 	
 	//init the map on the page
 	var map = new google.maps.Map(document.getElementById('map'), {
-	    zoom: 12,
+	    zoom: 13,
 	    center: new google.maps.LatLng(-37.813611, 144.963056),
 	    mapTypeId: google.maps.MapTypeId.ROADMAP
 	});
