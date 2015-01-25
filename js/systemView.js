@@ -1,22 +1,20 @@
+// wriiten by Jiachen Yan
 $(document).ready(function(){
 	
 	$(".pure-button").click(function(){
 		
 		$("#directioninfo").empty();
 		
-		var routeNumber = $(this).text();
+		var routeNumber = parseInt($(this).text());
 		
 		$.ajax({
 		    url: "./systemView_Function.php",
-		    type: "post",
+		    type: "POST",
 		    data: {"getDirectionInfo": routeNumber},
-		    dataType: "text",
-		    success: function(data) {  
-				console.log(data);
+		    dataType: "JSON",
+		    success: function(data) {  	
+				$("#directioninfo").append(data);
 			}
 		});
-		
-		
-		
 	})
 })

@@ -15,7 +15,7 @@
 	function getDirectionInfo($routeNumber) {
 		$file = fopen("data/lineinfo.xls", r);
 		rewind($file);
-		$dirinfo="";
+		$dirinfo = "";
 		while(!feof($file)){
 			$string = fgets($file); 
 			$temp = explode("\t", $string);
@@ -23,11 +23,11 @@
 				$dirinfo = "<p> $temp[4] </p> <p> $temp[6] </p>";
 			}
 		}
-		return $dirinfo;
+		echo json_encode($dirinfo);
 	}
 	
 	if (isset($_POST['getDirectionInfo'])) {
-        echo getDirectionInfo($_POST['getDirectionInfo']);
+        getDirectionInfo($_POST['getDirectionInfo']);
     }
 	
 	
