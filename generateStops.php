@@ -8,7 +8,7 @@
 <html>
 
 <head>
-	<title> TESTING FOR TIMETABLE 905</title>
+	<title> Generate Stops</title>
 	<script type="text/javascript">
 		console.log("HELLO");
 	</script>
@@ -33,6 +33,8 @@
 				
 				$test = SpecificNextDepartures($lineID,$stops[$i]["stop_id"],$dir,date('2015-01-25\Z'));						
 				$test = reset($test);
+				
+
 				
 				foreach($test as $key => $value){
 					
