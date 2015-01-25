@@ -9,6 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="./css/font-awesome-4.3.0/css/font-awesome.min.css"/>
 		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 		<script src="js/systemView.js"></script>
 		<title>System View</title>
 	</head>
@@ -21,7 +22,8 @@
 			<div style="text-align: center">
 				<h2>System View</h2>
 				<div id="routenumberinfo"> <?php showLineRouteNumber(); ?> </div>
-				<div id="directioninfo" style="margin: auto;"></div>
+				<div id="directioninfo" style="margin: auto;"> <p> Select a route above </p> <p> and select a direction </p> </div>
+				<div id="map" style="width: 800px; height: 600px; margin: auto;"></div>
 			</div>
 			<?php include './include/footer.inc';?>
 			
