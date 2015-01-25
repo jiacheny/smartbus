@@ -120,4 +120,8 @@ form {
 	float: left;
 }
 
+#routenumberinfo button {
+	margin: auto 10px auto 10px;
+}
+
 
