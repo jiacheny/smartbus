@@ -1,0 +1,123 @@
+body {
+	min-width: 1072px;
+	font-family: Arial;
+	background-image: url("../images/bg.gif");
+}
+
+header {
+	background-color: #cc0000;
+	height: 50px;
+}
+
+header div {
+	width: 20%;
+	height: 100%;
+	float: left;
+	text-align: center;
+}
+
+header img {
+	height: 100%;
+}
+
+nav {
+	width: 80%;
+	float: right;
+}
+
+nav ul {
+	list-style: none;
+}
+
+nav ul li {
+	text-align: center;
+	display: inline-block;
+	width: 24%;
+}
+
+nav ul li a:link {
+	text-decoration: none;
+	color: white;
+}
+
+nav ul li a:hover {
+	text-decoration: none;
+	color: white;
+}
+
+nav ul li a:visited {
+	text-decoration: none;
+	color: white;
+}
+
+nav ul li a:active {
+	text-decoration: none;
+	color: white;
+}
+
+#footer {
+	clear: both;
+	background-color: #cc0000;
+	color: white;
+	font-size: 11px;
+	text-align: center;
+}
+
+#footer img {
+	vertical-align: middle;
+}
+
+#introduction {
+	width: 46%;
+	height: 500px;
+	text-align: justify;
+	float: left;
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+#routetable {
+	width: 46%;
+	height: 500px;
+	float: left;
+	margin-left: 2%;
+	margin-right: 2%;
+	text-align: center;
+}
+
+#routetable table {
+	margin: 5% auto;
+	border-spacing: 20px;
+    border-collapse: separate;
+	
+}
+
+#routetable td {
+	border: 5px solid #cc0000;
+	width: 120px;
+	height: 74px;
+	font-size: xx-large;
+	font-weight: bold;
+}
+
+#universalLogin {
+	line-height: 400px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+form {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 50px;
+}
+
+#about1, #about2 {
+	width: 46%;
+	height: 500px;
+	margin-left: 2%;
+	margin-right: 2%;
+	float: left;
+}
+
+
