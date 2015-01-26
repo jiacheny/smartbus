@@ -22,7 +22,7 @@
 			<div style="text-align: center">
 				<h2>System View</h2>
 				<div id="routenumberinfo"> <?php showLineRouteNumber(); ?> </div>
-				<div id="directioninfo" style="margin: auto;"> <p> Select a route above </p> <p> and select a direction </p> </div>
+				<div id="directioninfo"> <p><i class="fa fa-arrow-up"></i> Select a route above <i class="fa fa-arrow-up"></i></p> <p> and then select a direction </p> </div>
 				<div id="map" style="width: 1072px; height: 663px; margin: auto;"></div>
 				<div id="legend">
 					<img src="images/originalmarker.png">

@@ -132,3 +132,9 @@ form {
 	height: 30px;
 	vertical-align: middle;
 }
+
+#directioninfo {
+	vertical-align: middle;
+	margin: auto; 
+	height: 100px;
+}
