@@ -53,7 +53,7 @@
 			while(!feof($file)){
 				$oneline = fgets($file);
 				$temp = explode("\t", $oneline);
-				array_push($stopsLocation, [trim($temp[0]), floatval(trim($temp[1])), floatval(trim($temp[2]))]);
+				array_push($stopsLocation, [trim($temp[1]), floatval(trim($temp[2])), floatval(trim($temp[3]))]);
 			}
 			fclose($file);
 		}
