@@ -7,10 +7,10 @@
 		$_SESSION['passenger']['status'] = false;
 		
 		//Check file is exists
-		if(file_exists("./account/passengerList.xls"))
+		if(file_exists("data/account/passengerList.xls"))
 		{
 			//Open file
-			$fp = fopen("./account/passengerList.xls","rb");
+			$fp = fopen("data/account/passengerList.xls","rb");
 			rewind($fp);
 			
 			//Check if the id valid or not
