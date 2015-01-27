@@ -1,6 +1,6 @@
 <?php
-	require_once("API_Function.php");
-	require_once("dataReaderFunction.php");
+	require_once("../API_Function.php");
+	require_once("../dataReaderFunction.php");
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +88,7 @@
 	    		marker = new google.maps.Marker({
 		        	position: new google.maps.LatLng(direction[i][2], direction[i][3]),
 		        	map: map,
-		        	icon: 'images/bluemarker.png'
+		        	icon: '../images/bluemarker.png'
 		    	});
 	    	} else {
 		    	marker = new google.maps.Marker({
@@ -109,7 +109,7 @@
 	    	marker = new google.maps.Marker({
 		        	position: new google.maps.LatLng(optionalLocation[i][1], optionalLocation[i][2]),
 		        	map: map,
-		        	icon: 'images/bluemarker.png'
+		        	icon: '../images/bluemarker.png'
 		    });
 		    google.maps.event.addListener(marker, 'click', (function(marker, i) {
 		        return function() {

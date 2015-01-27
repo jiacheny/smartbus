@@ -60,6 +60,24 @@
 		echo json_encode($stopsLocation);
 	}
 	
+	//temp use for testing
+	function ran($lineID, $dirID) {
+		$test;
+		$filepath = "data/stops/regular/$lineID/$dirID.xls";
+		$stopsLocation = [];
+		if (file_exists($filepath)) {
+			$file = fopen($filepath, rb);
+			rewind($file);
+			while(!feof($file)){
+				$oneline = fgets($file);
+				$temp = explode("\t", $oneline);
+				array_push($stopsLocation, [$temp[0], floatval(trim($temp[3])), floatval(trim($temp[4]))]);
+			}
+			fclose($file);
+		}
+		echo json_encode($stopsLocation);
+	}
+	if (isset($_POST['ran'])) { ran($_POST['ran'][0], $_POST['ran'][1]); }
 	
 	
 	if (isset($_POST['getDirectionInfo'])) { getDirectionInfo($_POST['getDirectionInfo']); }
