@@ -31,6 +31,7 @@
 			$tableA = [];
 			$content = "";
 			$optionalLocation = readOptionalStopFile(905);
+			$time123 = date('Y-m-d\Z'));
 			$runids = getrunid($lineID,$dir,date('Y-m-d\Z'));
 			print_r(array_values($runids));
 
@@ -43,7 +44,7 @@
 			
 			for ($i=0; $i<count($stops); $i++) {
 				
-				$temp = StoppingPattern(43100,$stops[$i]["stop_id"],date('2015-01-25\Z'));
+				$temp = StoppingPattern(43100,$stops[$i]["stop_id"],date('2015-01-27\Z'));
 				
 				$test = SpecificNextDepartures($lineID,$stops[$i]["stop_id"],$dir,date('2015-01-25\Z'));	
 					
@@ -119,6 +120,8 @@
 				print_r(array_values($runidArray));
 
 			}
+			
+			$temp123 = generateTimetable($lineID,$dir,$time123);
 			
 		?>
 

@@ -111,18 +111,20 @@
 					
 					$content = $content."\t".$key;
 					$content = $content."\t".$value[0];
-					
+										
 				}
-				
 				$content = $content."\n";
 				
 			}
+			
+			$content = substr($content,0,-1);
 
 			$filename = date('Ymd',$time);
 			$tempfile = fopen("data/timetable/".$lineID."/".$dirID."/".$filename.".xls",w);
 			fwrite($tempfile, $content);			
 			fclose($tempfile);
 			
+		
 	}
 	
 ?>
