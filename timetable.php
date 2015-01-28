@@ -1,16 +1,20 @@
 <?php 
+	require_once("API_Function.php");
 	
-	echo "session info is \n";
-	echo print_r($_SESSION['passenger']['id']);
+	$line_id = 7474;
+	$stop_id = 22066;
+	$dir = 21;
+	$utc = "2015-01-28T13:23:00Z";
 	
-	$time = date('Y-m-d\z','2015-01-25');
+	//SpecificNextDepartures($_line_id,$_stop_id,$_direction_id,$_time)
+	echo "SpecificNextDepartures";
+	SpecificNextDepartures($line_id, $stop_id, $dir, '2015-01-29T12:20:23Z');
 	
-	function displayOneDayTimetable ($lineid, $dir, $time) {
-		echo "$time";
-		
-		
-		
-		
-	}
+	//BroadNextDepartures($_stop_id)
+	echo "BroadNextDepartures";
+	BroadNextDepartures($stop_id);
 	
+	//StopsOnLine($_line_id)
+	echo "StopsOnLine";
+	StopsOnLine($line_id);
 ?>
