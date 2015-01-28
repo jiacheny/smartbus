@@ -60,6 +60,11 @@
 		echo json_encode($stopsLocation);
 	}
 	
+	if (isset($_POST['getDirectionInfo'])) { getDirectionInfo($_POST['getDirectionInfo']); }
+	if (isset($_POST['getRegularStopsLocation'])) { getRegularStopsLocation($_POST['getRegularStopsLocation'][0], $_POST['getRegularStopsLocation'][1]); }
+    if (isset($_POST['getOptionalStopsLocation'])) { getOptionalStopsLocation($_POST['getOptionalStopsLocation'][0], $_POST['getOptionalStopsLocation'][1]); }
+	
+	
 	//temp use for testing
 	function ran($lineID, $dirID) {
 		$test;
@@ -78,11 +83,6 @@
 		echo json_encode($stopsLocation);
 	}
 	if (isset($_POST['ran'])) { ran($_POST['ran'][0], $_POST['ran'][1]); }
-	
-	
-	if (isset($_POST['getDirectionInfo'])) { getDirectionInfo($_POST['getDirectionInfo']); }
-	if (isset($_POST['getRegularStopsLocation'])) { getRegularStopsLocation($_POST['getRegularStopsLocation'][0], $_POST['getRegularStopsLocation'][1]); }
-    if (isset($_POST['getOptionalStopsLocation'])) { getOptionalStopsLocation($_POST['getOptionalStopsLocation'][0], $_POST['getOptionalStopsLocation'][1]); }
 	
 	
 	

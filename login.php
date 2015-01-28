@@ -11,6 +11,8 @@
 	
 	$errorMsg = NULL;
 	
+	echo print_r($_SESSION);
+	
 	if(isset($_POST['login'])) {
 		try {
 			if($id == NULL){throw new customException("Empty ID!");}
