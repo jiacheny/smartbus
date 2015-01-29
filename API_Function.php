@@ -63,52 +63,67 @@
 		return $_content;
 	}
 	
+	function utcToMel ($utcString) {
+		$utc = strtotime($utcString);
+		date_default_timezone_set("Australia/Melbourne");
+		$mel = date('Y-m-d\TH:i:s\Z', $utc);
+		return $mel;
+	}
+	
 	function generateTimetable($lineID,$dirID,$time){
 		$content = "";
-		$stopsOrderArray = [];
-		$timetableArray = [];
-		$file = fopen("data/stops/regular/$lineID/route$dirID.xls",r);
-		echo "data/stops/regular/$lineID/route$dirID.xls";
+		$timetable = [];
+		$file = fopen("data/stops/regular/$lineID/$dirID"."inorder.xls",r);
 		rewind($file);
 		while(!feof($file)){
 			$oneline = fgets($file);
 			$oneline = trim($oneline);
-			echo "<br> xxxx $oneline xxxx <br>";
-			array_push($stopsOrderArray,$oneline); 
+			$timetable[$oneline] = [];
 		}
-
-		for ($i=0; $i<count($stopsOrderArray); $i++) {
-				$temp = SpecificNextDepartures($lineID,$stopsOrderArray[$i],$dirID,$time);				
-				$temp = reset($temp);
-				foreach($temp as $key => $value){
-					$timetableUTCTime = $value["time_timetable_utc"];
-					$temptime = strtotime($timetableUTCTime);
-					date_default_timezone_set("Australia/Melbourne");
-					$dateInLocal = date('Y-m-d\TH:i:s\Z',$temptime);						
-					$a = $value['run']['run_id'];
-					$timeArray[$a] = [];
-					array_push($timeArray[$a],$dateInLocal);
-					$timetableArray[$stopsOrderArray[$i]] = [];
-					array_push($timetableArray[$stopsOrderArray[$i]],$timeArray);							
-				}	
+		foreach ($timetable as $key => $value) {
+			echo "key is $key <br>";
+			$temp = SpecificNextDepartures($lineID, $key, $dirID, $time);
+			$temp = reset($temp);
+			$timetable1Stop = [];
+			foreach($temp as $key2 => $value2){
+				$runID = $value2['run']['run_id'];
+				$utc = $value2["time_timetable_utc"];
+				$timetable[$key][$runID] = $utc;
+			}
 		}
-		
-		foreach($timetableArray as $key => $value){
+		foreach($timetable as $key => $value){
 			$content = $content.$key;
-			foreach($timeArray as $key => $value){
-				
-				$content = $content."\t".$key;
-				$content = $content."\t".$value[0];
+			foreach($timetable[$key] as $key2 => $value2){
+				$content = $content."\t".$key2;
+				$content = $content."\t".$value2;
 			}
 			$content = $content."\n";
 		}
-		
 		$content = substr($content,0,-1);
 		$filename = date('Ymd', $time);
-		$tempfile = fopen("data/timetable/regular/".$lineID."/".$dirID."/".$filename.".xls",w);
-		fwrite($tempfile, $content);			
+		$newfile = fopen("data/timetable/regular/$lineID/$dirID/$filename.xls",w);
+		fwrite($newfile, $content);
 		fclose($tempfile);
-	
+		/*
+		for ($i=0; $i<1; $i++) {
+				$temp = SpecificNextDepartures($lineID,$timetable[$i],$dirID,$time);			
+				$temp = reset($temp);
+				foreach($temp as $key => $value){
+					$runID = $value['run']['run_id'];
+					$utc = $value["time_timetable_utc"];
+					$stopID = $value["platform"]["stop_id"];
+					$timetable[$stopID][$runID] = $utc;
+					//$temptime = strtotime($timetableUTCTime);
+					//date_default_timezone_set("Australia/Melbourne");
+					//$dateInLocal = date('Y-m-d\TH:i:s\Z',$temptime);						
+					//$timeArray[$a] = [];
+					//array_push($timeArray[$a],$dateInLocal);
+					//$timetableArray[$stopsOrderArray[$i]] = [];
+					//array_push($timetableArray[$stopsOrderArray[$i]],$timeArray);							
+				}
+				print_r(array_values($timetable));
+		}
+		*/
 	}
 	
 ?>
