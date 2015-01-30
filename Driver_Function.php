@@ -1,46 +1,6 @@
 <?php
 	session_start();
-	//Driver login function
-	function driverLogin($driverId,$password)
-	{
-		//Set the status = false
-		$_SESSION['driver']['status'] = false;
 		
-		//Check file is exists
-		if(file_exists("data/account/driverList.xls"))
-		{
-			//open file
-			$fp = fopen("data/account/driverList.xls","rb");
-			rewind($fp);
-			
-			//check id and password
-			while(!feof($fp))
-			{
-				$string = fgets($fp);
-				$tmp = explode("\t",$string);
-				
-				if($driverId == $tmp[0])
-				{
-					if(trim($password) == trim($tmp[1]))
-					{
-						if (!isset($_SESSION['driver']['id'])) {
-							$_SESSION['driver']['id'] = trim($tmp[0]);
-						}
-						
-						$_SESSION['driver']['status'] = true;
-					}
-				}
-			}
-			fclose($fp);
-			
-			//if invalid throw exception
-			if($_SESSION['driver']['status'] == false)
-				throw new customException("Invalid ID or Password!");
-		}
-		else
-			throw new customException("File not found!");
-	}
-	
 	function loadDriverRoute($mode)
 	{
 		$job = false;

@@ -11,8 +11,6 @@
 	
 	$errorMsg = NULL;
 	
-	echo print_r($_SESSION);
-	
 	if(isset($_POST['login'])) {
 		try {
 			if($id == NULL){throw new customException("Empty ID!");}
@@ -21,6 +19,8 @@
 				passengerLogin($id,$password);
 			elseif ($firstChar=="D") {
 				driverLogin($id,$password);
+			} else {
+				{throw new customException("Username must start with P or D!");}
 			}
 		}
 		catch(customException $e) {
