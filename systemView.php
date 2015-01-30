@@ -1,6 +1,8 @@
 <!Doctype html>
 <!-- written by Jiachen Yan -->
-<?php require("systemView_Function.php");  ?>
+<?php 
+	require_once('Common_Function.php');
+?>
 
 <html>
 	<head>

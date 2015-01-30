@@ -1,5 +1,5 @@
 <?php
-	include 'database.php';
+
 	session_start();
 	
 	//Passenger login function

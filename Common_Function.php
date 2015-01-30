@@ -5,6 +5,8 @@
 	include 'login_Function.php';
 	include 'Booking_Function.php';
 	include 'upload.php';
+	include 'database.php';
+	include 'systemView_Function.php';
 	
 	//Custom Exception Class
 	class customException extends Exception
