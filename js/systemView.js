@@ -10,11 +10,11 @@ $(document).ready(function(){
 	
 	$(".pure-button").click(function(){
 		$("#directioninfo").empty();
-		var routeNumber = parseInt($(this).text());
+		var lineNumber = parseInt($(this).text());
 		$.ajax({
 		    url: "./systemView_Function.php",
 		    type: "POST",
-		    data: {"getDirectionInfo": routeNumber},
+		    data: {"getDirectionInfo": lineNumber},
 		    dataType: "JSON",
 		    success: function(data) {  	
 				$("#directioninfo").append(data);

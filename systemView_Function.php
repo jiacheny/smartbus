@@ -1,33 +1,26 @@
 <?php
+	
 	// this file is written by Jiachen Yan
-	function showLineRouteNumber() {	
-		$file = fopen("data/lineinfo.xls", r);
-		rewind($file);
-		while(!feof($file)){
-			$string = fgets($file); 
-			$temp = explode("\t", $string);
-			echo "<button class='pure-button'> <i class='fa fa-bus'></i> $temp[1] </button>";
+	function showLineRouteNumber() {
+		$sql = "select line_number from line order by line_number";
+		$result = getQueryResult($sql);
+		while ($row = mysqli_fetch_assoc($result)) {
+			echo "<button class='pure-button'> <i class='fa fa-bus'></i> ".$row['line_number']." </button>";
 		}
-		fclose($file);
+		mysqli_free_result($result);
 	}
 	
-	function getDirectionInfo($routeNumber) {
-		$file = fopen("data/lineinfo.xls", r);
-		rewind($file);
-		$dirinfo = "";
-		while(!feof($file)){
-			$string = fgets($file); 
-			$temp = explode("\t", $string);
-			if ($temp[1]==$routeNumber) {
-				$dirinfo = "<p> <button id='dirA' class='pure-button' name=$temp[0] value=$temp[3]> $temp[4] </button> </p><p><button id='dirB' class='pure-button' name=$temp[0] value=$temp[5]> $temp[6] </button></p>";
-			}
+	function getDirectionInfo($lineNumber) {
+		include 'database.php';
+		$sql ="select b.line_id, line_number, b.dir_id, b.dir_name from line as a, direction as b where a.line_id = b.line_id and line_number=$lineNumber";
+		$result = getQueryResult($sql);
+		while ($row = mysqli_fetch_assoc($result)) {
+			$dirinfo = $dirinfo."<p><button class='pure-button'>".$row['dir_name']." </button></p>";
 		}
-		fclose($file);
 		echo json_encode($dirinfo);
 	}
 	
 	function getRegularStopsLocation($lineID, $dirID) {
-		$test;
 		$filepath = "data/stops/regular/$lineID/$dirID.xls";
 		$stopsLocation = [];
 		if (file_exists($filepath)) {
@@ -44,7 +37,6 @@
 	}
 	
 	function getOptionalStopsLocation($lineID, $dirID) {
-		$test;
 		$filepath = "data/stops/optional/$lineID/$dirID.xls";
 		$stopsLocation = [];
 		if (file_exists($filepath)) {
