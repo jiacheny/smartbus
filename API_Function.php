@@ -71,22 +71,19 @@
 	}
 	
 	function generateTimetable($lineID,$dirID,$time){
+		
 		echo "start generating timetable";
 		
-		$content = "";
 		$timetable = [];
-		$file = fopen("../data/stops/regular/$lineID/$dirID"."inorder.xls", r);
-		rewind($file);
-		while(!feof($file)){
-			$oneline = fgets($file);
-			$oneline = trim($oneline);
-			echo $oneline,"<br>";
-			$timetable[$oneline] = [];
+		$sql="select stop_id from lineStopsOrder where dir_id = $dirID and line_id = $lineID order by order_id ";
+		$result = getQueryResult($sql);
+		while($row = mysqli_fetch_assoc($result)){
+			$timetable[$row['stop_id']] = [];
 		}
 		
 		$conn = createConnection ();
 		foreach ($timetable as $key => $value) {
-			echo "key is $key <br>";
+
 			$temp = SpecificNextDepartures($lineID, $key, $dirID, $time);
 			$temp = reset($temp);
 			$timetable1Stop = [];
@@ -104,41 +101,7 @@
 				}
 			}
 		}
-		/*foreach($timetable as $key => $value){
-			$content = $content.$key;
-			foreach($timetable[$key] as $key2 => $value2){
-				
-
-			}
-			$content = $content."\n";
-		}
-		*/
-		/*$content = substr($content,0,-1);
-		$filename = date('Ymd', $time);
-		$newfile = fopen("../testing/$filename.xls",w);
-		fwrite($newfile, $content);
-		fclose($tempfile);
-		*/
-	
-		/*for ($i=0; $i<1; $i++) {
-				$temp = SpecificNextDepartures($lineID,$timetable[$i],$dirID,$time);			
-				$temp = reset($temp);
-				foreach($temp as $key => $value){
-					$runID = $value['run']['run_id'];
-					$utc = $value["time_timetable_utc"];
-					$stopID = $value["platform"]["stop_id"];
-					$timetable[$stopID][$runID] = $utc;
-					//$temptime = strtotime($timetableUTCTime);
-					//date_default_timezone_set("Australia/Melbourne");
-					//$dateInLocal = date('Y-m-d\TH:i:s\Z',$temptime);						
-					//$timeArray[$a] = [];
-					//array_push($timeArray[$a],$dateInLocal);
-					//$timetableArray[$stopsOrderArray[$i]] = [];
-					//array_push($timetableArray[$stopsOrderArray[$i]],$timeArray);							
-				}
-				print_r(array_values($timetable));
-		}
-		*/
+		
 	}
 	
 	
