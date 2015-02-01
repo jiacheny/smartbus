@@ -72,9 +72,10 @@
 	
 	function generateTimetable($lineID,$dirID,$time){
 		echo "start generating timetable";
+		
 		$content = "";
 		$timetable = [];
-		$file = fopen("data/stops/regular/$lineID/$dirID"."inorder.xls", r);
+		$file = fopen("../data/stops/regular/$lineID/$dirID"."inorder.xls", r);
 		rewind($file);
 		while(!feof($file)){
 			$oneline = fgets($file);
@@ -82,33 +83,44 @@
 			echo $oneline,"<br>";
 			$timetable[$oneline] = [];
 		}
-		/*
+		
+		$conn = createConnection ();
 		foreach ($timetable as $key => $value) {
 			echo "key is $key <br>";
 			$temp = SpecificNextDepartures($lineID, $key, $dirID, $time);
 			$temp = reset($temp);
 			$timetable1Stop = [];
-			foreach($temp as $key2 => $value2){
+			foreach($temp as $key2 => $value2){				
+				$stopID = $key;				
 				$runID = $value2['run']['run_id'];
-				$utc = $value2["time_timetable_utc"];
-				$timetable[$key][$runID] = $utc;
+				$time_utc = $value2["time_timetable_utc"];
+				$time_mel = utcToMel($time_utc);
+				$sql = "INSERT INTO timetable (line_id, dir_id, run_id, stop_id, date, time_utc, time_mel) VALUES ($lineID, $dirID, $runID, $stopID, '$time_mel', '$time_utc', '$time_mel')";
+				
+				if (mysqli_query($conn, $sql)) {
+					echo "New record created successfully<br>";
+				} else {
+					echo "Error: " . $sql . "<br>" . mysqli_error($conn). "<br>";
+				}
 			}
 		}
-		foreach($timetable as $key => $value){
+		/*foreach($timetable as $key => $value){
 			$content = $content.$key;
 			foreach($timetable[$key] as $key2 => $value2){
-				$content = $content."\t".$key2;
-				$content = $content."\t".$value2;
+				
+
 			}
 			$content = $content."\n";
 		}
-		$content = substr($content,0,-1);
+		*/
+		/*$content = substr($content,0,-1);
 		$filename = date('Ymd', $time);
-		$newfile = fopen("testing/$filename.xls",w);
+		$newfile = fopen("../testing/$filename.xls",w);
 		fwrite($newfile, $content);
 		fclose($tempfile);
+		*/
 	
-		for ($i=0; $i<1; $i++) {
+		/*for ($i=0; $i<1; $i++) {
 				$temp = SpecificNextDepartures($lineID,$timetable[$i],$dirID,$time);			
 				$temp = reset($temp);
 				foreach($temp as $key => $value){
@@ -128,5 +140,6 @@
 		}
 		*/
 	}
+	
 	
 ?>
