@@ -1,11 +1,10 @@
 <?php
-	require("../API_Function.php");
+	require_once("../API_Function.php");
 	
 	$lineID = 7474;
-	$time = "2015-02-02T09:00:00Z";
-	$dirID = 33;
-	generateTimetable($lineID,$dirID,$time);
-	
+	$dirID = 20;
+	$time = date('Y-m-d\Z');
+	generateTimetable($lineID,$dirID,'2015-02-02Z');
 	/*
 	displayTimetable ($lineID, $dirID, $time);
 
@@ -39,7 +38,7 @@
 		fclose($file);
 		return $stopsIDName;
 	}
+	*/
 	
-	*
 	
 ?>

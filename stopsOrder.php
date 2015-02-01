@@ -1,7 +1,7 @@
 <!--writen by ran jing  -->
 <?php
 	require_once("API_Function.php");
-	require_once("dataReaderFunction.php");
+	include 'database.php';
 ?>
 
 <!DOCTYPE html>
@@ -22,33 +22,42 @@
 	<div> 
 		<?php
 			$lineID = 7474;
+			$dir = 20;
 			$stops = StopsOnLine($lineID);
 			$stopsidArray = [];
-			$content = "";
+			$orderID = 1;
+			$temp = SpecificNextDepartures($lineID,$stops[0]["stop_id"],$dir,date('2015-02-02\Z'));
 
+						
 			echo "Start for lop below. <br>";
 			
+			$conn = createConnection ();
+			
+			$test = StoppingPattern(42183, $stops[0]["stop_id"], date('2015-02-02\Z'));									
+			$test = reset($test);
+							
+			foreach($test as $key => $value){
+				
+				if(count($value)!=0 && !in_array($value["platform"]["stop"]["stop_id"],$stopsidArray)){
+					
+					array_push($stopsidArray, $value["platform"]["stop"]["stop_id"]);
+					$stopID = $value["platform"]["stop"]["stop_id"];
+					$dirID = $value["platform"]["direction"]["direction_id"];
+				
+				}
+				
+				$sql = "INSERT INTO lineStopsOrder (line_id, dir_id, order_id, stop_id) VALUES ($lineID, $dirID, $orderID, $stopID)";
+				
+				if (mysqli_query($conn, $sql)) {
+					echo "New record created successfully<br>";
+				} else {
+					echo "Error: " . $sql . "<br>" . mysqli_error($conn). "<br>";
+				}
 
 				
-				$test = StoppingPattern(43320,$stops[0]["stop_id"],date('2015-01-26\Z'));									
-				$test = reset($test);
-								
-				foreach($test as $key => $value){
-					
-					if(count($value)!=0 && !in_array($value["platform"]["stop"]["stop_id"],$stopsidArray)){
-						
-						$content = $content.$value["platform"]["stop"]["stop_id"];
-						$content = $content."\n";
-						array_push($stopsOrderArray,$value["platform"]["stop"]["stop_id"]);
-						$dirID = $value["platform"]["direction"]["direction_id"];
-						
-					}
-				}
+				$orderID++;
+			}
 			
-					
-			$file = fopen("data/stops/regular/".$lineID."/route".$dirID.".xls",w);
-			fwrite($file, $content);
-			fclose($file);
 								
 		?>
 
