@@ -2,10 +2,14 @@
 	require_once("../API_Function.php");
 	require_once("../database.php");
 	
+	echo "hello";
 	$lineID = 7474;
 	$dirID = 20;
+
 	$time = date('Y-m-d\TH:i:s\Z');
+	
 	generateTimetable($lineID,$dirID,$time);
+	
 	/*
 	displayTimetable ($lineID, $dirID, $time);
 

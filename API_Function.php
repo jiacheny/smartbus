@@ -92,7 +92,11 @@
 				$runID = $value2['run']['run_id'];
 				$time_utc = $value2["time_timetable_utc"];
 				$time_mel = utcToMel($time_utc);
-				$sql = "INSERT INTO timetable (line_id, dir_id, run_id, stop_id, date, time_utc, time_mel) VALUES ($lineID, $dirID, $runID, $stopID, '$time_mel', '$time_utc', '$time_mel')";
+				
+				date_default_timezone_set("Australia/Melbourne");
+				$date_mel = utcToMel ($time);
+				echo $time;
+				$sql = "INSERT INTO timetable (line_id, dir_id, run_id, stop_id, date_mel, time_utc, time_mel) VALUES ($lineID, $dirID, $runID, $stopID, '$time_mel', '$time_utc', '$time_mel')";
 				
 				if (mysqli_query($conn, $sql)) {
 					echo "New record created successfully<br>";
