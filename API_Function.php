@@ -71,15 +71,18 @@
 	}
 	
 	function generateTimetable($lineID,$dirID,$time){
+		echo "start generating timetable";
 		$content = "";
 		$timetable = [];
-		$file = fopen("data/stops/regular/$lineID/$dirID"."inorder.xls",r);
+		$file = fopen("data/stops/regular/$lineID/$dirID"."inorder.xls", r);
 		rewind($file);
 		while(!feof($file)){
 			$oneline = fgets($file);
 			$oneline = trim($oneline);
+			echo $oneline,"<br>";
 			$timetable[$oneline] = [];
 		}
+		/*
 		foreach ($timetable as $key => $value) {
 			echo "key is $key <br>";
 			$temp = SpecificNextDepartures($lineID, $key, $dirID, $time);
@@ -101,10 +104,10 @@
 		}
 		$content = substr($content,0,-1);
 		$filename = date('Ymd', $time);
-		$newfile = fopen("data/timetable/regular/$lineID/$dirID/$filename.xls",w);
+		$newfile = fopen("testing/$filename.xls",w);
 		fwrite($newfile, $content);
 		fclose($tempfile);
-		/*
+	
 		for ($i=0; $i<1; $i++) {
 				$temp = SpecificNextDepartures($lineID,$timetable[$i],$dirID,$time);			
 				$temp = reset($temp);

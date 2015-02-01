@@ -23,7 +23,7 @@
 			<?php include './include/top.inc';?>
 			<div style="text-align: center">
 				<h2>System View</h2>
-				<div id="routenumberinfo"> <?php showLineRouteNumber(); ?> </div>
+				<div id="routenumberinfo"> <?php showLineNumber(); ?> </div>
 				<div id="directioninfo"> 
 					<p><i class="fa fa-arrow-up"></i> Select a route above <i class="fa fa-arrow-up"></i></p> <p> and then select a direction </p> 
 				</div>

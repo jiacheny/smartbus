@@ -61,8 +61,8 @@ $(document).ready(function(){
 		if (dataReg.length>0 && dataOpt.length>0) {
 			var sumlat=0, sumlon=0;
 			$.each(dataReg, function(key, val){
-				sumlat = sumlat+dataReg[key][1];
-				sumlon = sumlon+dataReg[key][2];
+				sumlat = sumlat + parseFloat(dataReg[key][1]);
+				sumlon = sumlon + parseFloat(dataReg[key][2]);
 			});
 			var map = new google.maps.Map(document.getElementById('map'), {
 			    zoom: 12,

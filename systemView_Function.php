@@ -1,37 +1,35 @@
 <?php
 	
 	// this file is written by Jiachen Yan
-	function showLineRouteNumber() {
+	function showLineNumber() {
 		$sql = "select line_number from line order by line_number";
 		$result = getQueryResult($sql);
 		while ($row = mysqli_fetch_assoc($result)) {
 			echo "<button class='pure-button'> <i class='fa fa-bus'></i> ".$row['line_number']." </button>";
 		}
-		mysqli_free_result($result);
 	}
 	
 	function getDirectionInfo($lineNumber) {
-		include 'database.php';
+		require_once 'database.php';
 		$sql ="select b.line_id, line_number, b.dir_id, b.dir_name from line as a, direction as b where a.line_id = b.line_id and line_number=$lineNumber";
 		$result = getQueryResult($sql);
+		$count = 0;
 		while ($row = mysqli_fetch_assoc($result)) {
-			$dirinfo = $dirinfo."<p><button class='pure-button'>".$row['dir_name']." </button></p>";
+			if ($count==0)
+				$dirinfo = $dirinfo."<p><button class='pure-button' id='dirA' value=".$row['dir_id']." name=".$row['line_id']."> <b>To</b> ".$row['dir_name']." </button></p>";
+			else
+				$dirinfo = $dirinfo."<p><button class='pure-button' id='dirB' value=".$row['dir_id']." name=".$row['line_id']."> <b>To</b> ".$row['dir_name']." </button></p>";
 		}
 		echo json_encode($dirinfo);
 	}
 	
 	function getRegularStopsLocation($lineID, $dirID) {
-		$filepath = "data/stops/regular/$lineID/$dirID.xls";
+		require_once 'database.php';
+		$sql = "select location_name, lat, lon from lineStopsOrder as l, stops as s where line_id=$lineID and dir_id=$dirID and s.stop_id = l.stop_id order by order_id";
+		$result = getQueryResult($sql);
 		$stopsLocation = [];
-		if (file_exists($filepath)) {
-			$file = fopen($filepath, rb);
-			rewind($file);
-			while(!feof($file)){
-				$oneline = fgets($file);
-				$temp = explode("\t", $oneline);
-				array_push($stopsLocation, [trim($temp[2]), floatval(trim($temp[3])), floatval(trim($temp[4]))]);
-			}
-			fclose($file);
+		while ($row = mysqli_fetch_assoc($result)) {
+			array_push($stopsLocation, [$row['location_name'], $row['lat'], $row['lon']]);
 		}
 		echo json_encode($stopsLocation);
 	}

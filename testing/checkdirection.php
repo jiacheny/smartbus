@@ -8,7 +8,7 @@
 	
 	$stops = StopsOnLine($lineID);
 
-	for ($i=0; $i<count($stops); $i++) {
+	for ($i=0; $i<1; $i++) {
 		$stopID = $stops[$i]['stop_id'];
 		echo $stopID,"<br>";
 		$bnd = BroadNextDepartures($stopID);

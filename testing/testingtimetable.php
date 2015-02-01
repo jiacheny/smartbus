@@ -1,10 +1,12 @@
 <?php
-	include("API_Function.php");
+	require("../API_Function.php");
 	
 	$lineID = 7474;
-	$time = "20150129";
+	$time = "2015-02-02T09:00:00Z";
 	$dirID = 33;
-	//generateTimetable($lineID,$dirID,$time);
+	generateTimetable($lineID,$dirID,$time);
+	
+	/*
 	displayTimetable ($lineID, $dirID, $time);
 
 	function displayTimetable ($lineID, $dirID, $time) {
@@ -38,6 +40,6 @@
 		return $stopsIDName;
 	}
 	
-	
+	*
 	
 ?>
