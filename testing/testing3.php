@@ -31,7 +31,7 @@
 					<span> Optional Stops </span>
 				</div>
 				<script>
-					var dirID = 21;
+					var dirID = 33;
 					var lineID = 7474;
 					var stopsReg, stopsOpt;
 					$.ajax({
@@ -44,6 +44,7 @@
 							stopsReg = data;
 						}
 					});
+					console.log(stopsReg);
 					$.ajax({
 					    url: "../systemView_Function.php",
 					    type: "POST",
@@ -54,6 +55,7 @@
 							stopsOpt = data;
 						}
 					});
+					console.log(stopsOpt);
 					putMarkerOnMap(stopsReg, stopsOpt);
 					
 					function putMarkerOnMap(dataReg, dataOpt){
@@ -68,6 +70,7 @@
 							    center: new google.maps.LatLng(sumlat/dataReg.length, sumlon/dataReg.length),
 							    mapTypeId: google.maps.MapTypeId.ROADMAP
 							});
+							
 							var infowindow = new google.maps.InfoWindow();
 						    var marker, i;
 						    for (i = 0; i < dataReg.length; i++) {  
@@ -95,6 +98,7 @@
 						        	}
 						    	})(marker, i));
 							}
+							
 						}
 					}
 				</script>	

@@ -21,8 +21,8 @@
 
 	<div> 
 		<?php
-			$lineID = 7474;
-			$dir = 20;
+			$lineID = 943;
+			$dir = 163;
 			$stops = StopsOnLine($lineID);
 			$stopsidArray = [];
 			$orderID = 1;
