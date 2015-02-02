@@ -7,9 +7,10 @@
 	$dirID = 20;
 
 	$time = date('Y-m-d\TH:i:s\Z');
-	
-	generateTimetable($lineID,$dirID,$time);
-	
+
+	generateTimetable($lineID,$dirID, "2015-02-02T09:00:00Z");
+
+	echo "DONE";
 	/*
 	displayTimetable ($lineID, $dirID, $time);
 
