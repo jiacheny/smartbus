@@ -1,27 +1,36 @@
 <?php
 	session_start();
 	
+	//written by Jiachen Yan
+	function selectLineNumber() {
+		$sql = "select line_number from line order by line_number";
+		$result = getQueryResult($sql);
+		$html = "";
+		while ($row=mysqli_fetch_assoc($result)) {
+			$html = $html."<option>".$row['line_number']."</option>";
+		}
+		echo $html;
+	}
+	
+	
+	
 	//load search route
-	function loadRoute($line_id,$linedir_id,$date,$_time)
-	{
+	function loadRoute($line_id,$linedir_id,$date,$_time) {
 		$_week = date("w",strtotime($date));
 		//set the file path
 		if($_week == "0" || $_week == "6")
 			$_filename = "./busRoute/".$line_id."/".$_week."/".$linedir_id.".xls";
 		else
 			$_filename = "./busRoute/".$line_id."/".$linedir_id.".xls";
-		
 		//check file
-		if(file_exists($_filename))
-		{
+		if(file_exists($_filename)) {
 			//open file
 			$fp = fopen($_filename,"rb");
 			rewind($fp);
 			
 			$num = NULL;
 			//load data
-			for($i=0; !feof($fp); $i++)
-			{
+			for($i=0; !feof($fp); $i++) {
 				$string = fgets($fp);
 				$tmp = explode("\t",$string);
 				
@@ -31,12 +40,9 @@
 				$result[$i]['lon'] = trim($tmp[4]);
 				$result[$i]['status'] = trim($tmp[5]);
 				
-				if($i == 0)
-				{
-					for($j=6; $j<count($tmp); $j++)
-					{
-						if(strtotime(trim($tmp[$j])) >= strtotime($_time))
-						{
+				if($i == 0) {
+					for($j=6; $j<count($tmp); $j++) {
+						if(strtotime(trim($tmp[$j])) >= strtotime($_time)) {
 							$num = $j;
 							break;
 						}
@@ -50,8 +56,7 @@
 			
 			$_filename = "./schedule/".$line_id."/".$linedir_id."/".date("Ymd",strtotime($date)).date("Hi",strtotime($result[0]['time'])).".xls";
 			
-			if(file_exists($_filename))
-			{
+			if(file_exists($_filename)) {
 				$fp = fopen($_filename,"rb");
 				rewind($fp);
 				$string = fgets($fp);
@@ -66,7 +71,6 @@
 				}
 				fclose($fp);
 			}
-			
 			$_SESSION['result'] = $result;
 		}
 		else

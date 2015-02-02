@@ -71,10 +71,7 @@
 					</form>
 				</div>
 				
-			<?php
-				}
-				elseif($_SESSION['passenger']['status']) {
-			?>
+			<?php } elseif($_SESSION['passenger']['status']) { ?>
 				<div id="universalLogin">
 					<style scoped>
 						.button-success {
@@ -90,14 +87,12 @@
 							HELLO, <?php echo $_SESSION['passenger']['id'] ?> ! <br>
 							WELCOME BACK!
 						</div>
-						<button class="button-success pure-button"> <a href="booking.php"> BOOK BUS </a> </button>
-						<br/>
+						<button class="button-success pure-button"> <a href="booking.php"> BOOK A STOP </a> </button>
+						<br>
 						<button type="submit" name="logout" value="logout" class="pure-button pure-button-primary" style="background-color: #cc0000"> LOGOUT </div>
 					</form>
 				</div>
-			<?php
-				} elseif($_SESSION['driver']['status']) {
-			?>
+			<?php } elseif($_SESSION['driver']['status']) { ?>
 				<div id="universalLogin">
 					<form action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 						<div class="pure-control-group">
@@ -113,9 +108,7 @@
 					</form>
 				</div>
 		
-			<?php
-				} else {
-			?>
+			<?php } else { ?>
 				<div id="universalLogin">
 					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 						<?php echo $errorMsg; ?>
@@ -123,11 +116,7 @@
 						<button class="button-success pure-button"> <a href='login.php'> Try again </a> </button>
 					</form>
 				</div>
-			<?php
-				}
-			?>
-
-			
+			<?php } ?>
 			</div>
 			
 			<?php include './include/footer.inc';?>

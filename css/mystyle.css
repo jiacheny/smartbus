@@ -35,22 +35,22 @@ nav ul li {
 	width: 24%;
 }
 
-nav ul li a:link {
+a:link {
 	text-decoration: none;
 	color: white;
 }
 
-nav ul li a:hover {
+a:hover {
 	text-decoration: none;
 	color: white;
 }
 
-nav ul li a:visited {
+a:visited {
 	text-decoration: none;
 	color: white;
 }
 
-nav ul li a:active {
+a:active {
 	text-decoration: none;
 	color: white;
 }
@@ -137,4 +137,27 @@ form {
 	vertical-align: middle;
 	margin: auto; 
 	height: 100px;
+}
+
+#searchdiv {
+	margin: auto;
+	text-align: center;
+}
+
+#searchform {
+	width: 100%;
+}
+
+.searchLabel, .searchSelect {
+	display: inline-block;
+}
+
+.searchLabel {
+	width: 10%;
+	text-align: right;
+}
+
+.searchLabel + .searchSelect {
+	width: 15%;
+	margin: 0 5% 0 1%;
 }
