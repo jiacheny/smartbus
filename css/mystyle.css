@@ -161,3 +161,7 @@ form {
 	width: 15%;
 	margin: 0 5% 0 1%;
 }
+
+#selectHour, #selectMinute {
+	width: 46.5%;
+}

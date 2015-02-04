@@ -3,15 +3,49 @@
 	
 	//written by Jiachen Yan
 	function selectLineNumber() {
-		$sql = "select line_number from line order by line_number";
+		$sql = "select * from line order by line_number";
 		$result = getQueryResult($sql);
 		$html = "";
 		while ($row=mysqli_fetch_assoc($result)) {
-			$html = $html."<option>".$row['line_number']."</option>";
+			$html = $html."<option value=".$row['line_id']." >".$row['line_number']."</option>";
 		}
 		echo $html;
 	}
 	
+	//written by Jiachen Yan
+	function selectDirection ($lineID) {
+		require_once('database.php');
+		$sql = "select dir_id, dir_name from direction where line_id=$lineID";
+		$result = getQueryResult($sql);
+		$html = "<option> Select A Direction </option>";
+		while ($row=mysqli_fetch_assoc($result)) {
+			$html = $html."<option value=".$row['dir_id']."> To ".$row['dir_name']." </option>";
+		}
+		echo json_encode($html);
+	}
+	if (isset($_POST['selectDirection'])) { selectDirection($_POST['selectDirection']); }
+	
+	//written by Jiachen Yan
+	function selectStops ($data) {
+		$lineID = $data[0];
+		$dirID = $data[1];
+		require_once('database.php');
+		$sql = "select stopsOpt.stop_id, location_name from stopsInOrder, stopsOpt where regular=0 and line_id=$lineID and dir_id=$dirID and stopsInOrder.stop_id=stopsOpt.stop_id order by order_id";
+		$result = getQueryResult($sql);
+		$html = "<option> Select An Optional Stop </option>";
+		while ($row=mysqli_fetch_assoc($result)) {
+			$html = $html."<option value=".$row['stop_id']."> ".$row['location_name']." </option>";
+		}
+		echo json_encode($html);
+	}
+	if (isset($_POST['selectStops'])) { selectStops($_POST['selectStops']); }
+	
+	//written by Jiachen Yan
+	function selectTime() {
+		
+		
+		
+	}
 	
 	
 	//load search route

@@ -47,9 +47,10 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="./css/mystyle.css">
-		<script src="js/booking.js"></script>
 		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+		<link rel="stylesheet" type="text/css" href="./css/mystyle.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="js/booking.js"></script>
 		<title>Booking</title>
 	</head>
 
@@ -64,33 +65,51 @@
 					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get" id='searchform'>
 						<div>
 							<label class="searchLabel"> Bus Line </label>
-							<select class="searchSelect"> 
+							<select class="searchSelect" id="selectLine"> 
 								<option> Select A Bus Line </option>
 								<?php selectLineNumber() ?>
 							</select>
 						</div>
 						<div>
 							<label class="searchLabel"> Direction </label>
-							<select class="searchSelect">
+							<select class="searchSelect" id="selectDirection">
 								<option> Select A Direction </option>
 							</select>
 						</div>
 						<div>
 							<label class="searchLabel"> Optional Stop </label>
-							<select class="searchSelect">
-								<option> Select A Optional Stop </option>
+							<select class="searchSelect" id="selectStops">
+								<option> Select An Optional Stop </option>
+							</select>
+						</div>
+						<div>
+							<label class="searchLabel"> Date </label>
+							<select class="searchSelect" id="selectDate">
+								<option> Select A Date </option>
+								<option value=<?php echo date("Y-m-d") ?> > Today </option>
+								<option value=<?php $today=date("Y-m-d"); echo date("Y-m-d", strtotime('tomorrow')) ?>> Tomorrow </option>
 							</select>
 						</div>
 						<div>
 							<label class="searchLabel"> Time </label>
-							<select class="searchSelect">
-								<option> Select A Time </option>
+							<div class="searchSelect">
+							<select id="selectHour">
+								<option value=0> 00 </option><option value=1> 01 </option><option value=2> 02 </option><option value=3> 03 </option><option value=4> 04 </option><option value=5> 05 </option><option value=6> 06 </option><option value=7> 07 </option><option value=8> 08 </option><option value=9> 09 </option><option value=10> 10 </option><option value=11> 11 </option><option value=12> 12 </option><option value=13> 13 </option><option value=14> 14 </option><option value=15> 15 </option><option value=16> 16 </option><option value=17> 17 </option><option value=18> 18 </option><option value=19> 19 </option><option value=20> 20 </option><option value=21> 21 </option><option value=22> 22 </option><option value=23> 23 </option>
 							</select>
+							<label> : </label>
+							<select id="selectMinute">
+								<option value=0> 00 </option>
+								<option value=15> 15 </option>
+								<option value=30> 30 </option>
+								<option value=45> 45 </option>
+							</select>
+							</div>
 						</div>
 						<div>
 				            <button type="submit" id="searchSubmit" class="pure-button pure-button-primary">Submit</button>
 				        </div>
 					</form>
+					<div id="timetable"> </div>
 				</div>
 			
 			<?php
