@@ -1,34 +1,29 @@
 <?
 	require_once("../API_Function.php");
 	require_once("../database.php");
-	
-	//$lineIDs = [943, 1517, 7531, 7464, 7458, 7474, 8088, 7476, 7477];
+
 	$lineID = 7474;
 	$dirID = 20;
 	$optID = 3;
 	$bookingTime = '2015-02-03 15:00:00';
-	$temptime = strtotime($bookingTime);
-	$starttime = date('Y-m-d H:i:s',strtotime('-15 minutes', $temptime));
-	$endtime = date('Y-m-d H:i:s',strtotime('+15 minutes', $temptime));
-	echo $starttime, $endtime;
 	
-	$sql = "select stop_id from stopsInOrder where dir_id=$dirID and line_id=$lineID order by order_id";
-	$result = getQueryResult($sql);
-	$stopIDs = [];
-	while ($row = mysqli_fetch_assoc($result)) {
-		array_push($stopIDs, $row['stop_id']);
-	}
+	function displayTimetable($lineID,$dirID,$optID,$bookingTime){
+		$temptime = strtotime($bookingTime);
+		$starttime = date('Y-m-d H:i:s',strtotime('-15 minutes', $temptime));
+		$endtime = date('Y-m-d H:i:s',strtotime('+15 minutes', $temptime));
+		echo $starttime, $endtime;
 	
-	echo "StopIDs <br>";
-	print_r(array_values($stopIDs));
+		$sql = "select stop_id from stopsInOrder where dir_id=$dirID and line_id=$lineID order by order_id";
+		$result = getQueryResult($sql);
+		$stopIDs = [];
+		while ($row = mysqli_fetch_assoc($result)) {
+			array_push($stopIDs, $row['stop_id']);
+		}
 	
-	/*$currentTime = date("Y-m-d\TH:i:s\Z");
-	$currentTime = "2015-02-02T04:00:00Z";
-	$nextday = "2015-02-02T16:00:00Z";
-	echo "<br><br> current is $currentTime <br>";
-	echo "<br> next is $nextday <br>";
-	*/
-	$sql = "select run_id from timetable where line_id = $lineID and dir_id = $dirID 
+		echo "StopIDs <br>";
+		print_r(array_values($stopIDs));
+	
+		$sql = "select run_id from timetable where line_id = $lineID and dir_id = $dirID 
 			and time_mel < '$endtime'
 			and time_mel > '$starttime'
 			and stop_id in ( select stop_id
@@ -39,55 +34,54 @@
 						 						and dir_id = $dirID
 						 						and stop_id = $optID
 						 )
-		)";
-	$result = getQueryResult($sql);
-	$runIDs = [];
-	while ($row = mysqli_fetch_assoc($result) ) {
-		if (!in_array($row['run_id'], $runIDs))
+			)";
+			$result = getQueryResult($sql);
+			$runIDs = [];
+		while ($row = mysqli_fetch_assoc($result) ) {
+			if (!in_array($row['run_id'], $runIDs))
 			array_push($runIDs, $row['run_id']);
-	}
+		}
 	
-	echo "<br>runIDs <br>";
-	print_r(array_values($runIDs));
+		echo "<br>runIDs <br>";
+		print_r(array_values($runIDs));
 	
-	echo "<br>";
-	echo "<br>";
+		echo "<br>";
+		echo "<br>";
 	
-	//display timetable
-	echo "<table style='border: solid;'>";
+		//display timetable
+		echo "<table style='border: solid;'>";
+		
+		foreach ($stopIDs as $key => $value) {
+			echo "<tr>";
+			echo "<td>".getStopName($lineID,$dirID,$value)."</td>";
+			$tempStopID = $value;
 	
-	$preTime = '';	
-	foreach ($stopIDs as $key => $value) {
-		echo "<tr>";
-		echo "<td>".getStopName($lineID,$dirID,$value)."</td>";
-		$tempStopID = $value;
-	
-		foreach ($runIDs as $key2 => $value2) {
+			foreach ($runIDs as $key2 => $value2) {
 			
 
-			$sql = "select t.stop_id, run_id, time_mel from timetable as t, stops as s where t.stop_id=s.stop_id and t.stop_id=$value and run_id=$value2";
-			$result = getQueryResult($sql);
-			if ($row = mysqli_fetch_assoc($result)) {	
+				$sql = "select t.stop_id, run_id, time_mel from timetable as t, stops as s where t.stop_id=s.stop_id and t.stop_id=$value and run_id=$value2";
+				$result = getQueryResult($sql);
+				if ($row = mysqli_fetch_assoc($result)) {	
 										
-				$tempTime = $row['time_mel'];
-				$tempTime = date("H:i", strtotime($tempTime));
-				$preTime = $tempTime;
-				echo $preTime."<br>";
-				echo "<td style='text-align: center'>".$tempTime."</td>";
+					$tempTime = $row['time_mel'];
+					$tempTime = date("H:i", strtotime($tempTime));
+					echo "<td style='text-align: center'>".$tempTime."</td>";
 				
 				
-			} else {
-				echo "<br>".$tempStopID."<br>";
-				if($tempStopID == $optID){
-					echo $preTime;
-					echo "<td style='text-align: center'>".$preTime."</td>";					
+				} else {
+					echo "<br>".$tempStopID."<br>";
+					if($tempStopID == $optID){
+						$preStopTime = getPreStopTime($lineID,$dirID,$value2,$optID);
+						$preStopTime = date("H:i", strtotime($preStopTime));
+						echo "<td style='text-align: center; background-color:red'>".$preStopTime."</td>";					
+					}
+					else echo "<td style='text-align: center'> --- </td>";
 				}
-				else echo "<td style='text-align: center'> --- </td>";
 			}
+			echo "</tr>";
 		}
-		echo "</tr>";
+		echo "</table>";
 	}
-	echo "</table>";
 	
 	function getStopName ($lineID,$dirID,$stopID) {
 		
@@ -116,6 +110,26 @@
 			
 		}
 		
+	}
+	
+	function getPreStopTime($lineID,$dirID,$runID,$optID){
+		
+		$sql = "select time_mel from timetable where line_id = $lineID and dir_id = $dirID 
+				and run_id = $runID
+				and stop_id in ( select stop_id
+						 	from stopsInOrder
+						 	where order_id in ( select order_id-1
+						 						from stopsInorder
+						 						where line_id = $lineID
+						 						and dir_id = $dirID
+						 						and stop_id = $optID
+						 )
+		)";
+		$result = getQueryResult($sql);
+		$row = mysqli_fetch_assoc($result);
+		$preStopTime = $row['time_mel'];
+		return $preStopTime;
+
 	}
 	
 	
