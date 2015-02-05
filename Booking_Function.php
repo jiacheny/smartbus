@@ -93,7 +93,6 @@
 					$tempTime = date("H:i", strtotime($tempTime));
 					$html = $html."<td style='text-align: center'>".$tempTime."</td>";
 				} else {
-					$html = $html."<br>".$tempStopID."<br>";
 					if($tempStopID == $optID){
 						$preStopTime = getPreStopTime($lineID,$dirID,$value2,$optID);
 						$preStopTime = date("H:i", strtotime($preStopTime));
