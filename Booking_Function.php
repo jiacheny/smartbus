@@ -55,7 +55,6 @@
 		$starttime = date('Y-m-d H:i:s',strtotime('-15 minutes', $temptime));
 		$endtime = date('Y-m-d H:i:s',strtotime('+60 minutes', $temptime));
 		
-		$html = $html.$endtime;
 		
 		$sql = "select stop_id from stopsInOrder where dir_id=$dirID and line_id=$lineID order by order_id";
 		$result = getQueryResult($sql);

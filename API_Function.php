@@ -86,7 +86,7 @@
 
 			$temp = SpecificNextDepartures($lineID, $key, $dirID, $time);
 			$temp = reset($temp);
-			$timetable1Stop = [];
+			//$timetable1Stop = [];
 			foreach($temp as $key2 => $value2){				
 				$stopID = $key;				
 				$runID = $value2['run']['run_id'];
