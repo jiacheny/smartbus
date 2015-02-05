@@ -4,14 +4,15 @@
 
 	$lineID = 7474;
 	$dirID = 20;
-	$optID = 3;
-	$bookingTime = '2015-02-03 15:00:00';
+	$optID = 4;
+	$bookingTime = '2015-02-03 08:00:00';
 	displayTimetable($lineID, $dirID, $optID, $bookingTime);
 	
 	function displayTimetable($lineID, $dirID, $optID, $bookingTime){
+		
 		$temptime = strtotime($bookingTime);
 		$starttime = date('Y-m-d H:i:s',strtotime('-15 minutes', $temptime));
-		$endtime = date('Y-m-d H:i:s',strtotime('+15 minutes', $temptime));
+		$endtime = date('Y-m-d H:i:s',strtotime('+60 minutes', $temptime));
 		echo $starttime, $endtime;
 	
 		$sql = "select stop_id from stopsInOrder where dir_id=$dirID and line_id=$lineID order by order_id";
@@ -25,8 +26,8 @@
 		print_r(array_values($stopIDs));
 	
 		$sql = "select run_id from timetable where line_id = $lineID and dir_id = $dirID 
-			and time_mel < '$endtime'
-			and time_mel > '$starttime'
+			and time_mel < '2015-02-03 09:00:00'
+			and time_mel > '2015-02-03 07:45:00'
 			and stop_id in ( select stop_id
 						 	from stopsInOrder
 						 	where order_id in ( select order_id-1
@@ -35,7 +36,9 @@
 						 						and dir_id = $dirID
 						 						and stop_id = $optID
 						 )
-			)";
+			)
+			order by time_mel
+			";
 			$result = getQueryResult($sql);
 			$runIDs = [];
 		while ($row = mysqli_fetch_assoc($result) ) {
@@ -70,7 +73,7 @@
 				
 				
 				} else {
-					echo "<br>".$tempStopID."<br>";
+					//echo "<br>".$tempStopID."<br>";
 					if($tempStopID == $optID){
 						$preStopTime = getPreStopTime($lineID,$dirID,$value2,$optID);
 						$preStopTime = date("H:i", strtotime($preStopTime));
@@ -133,6 +136,25 @@
 
 	}
 	
+	function sortTimetable(){
+		
+		$sql = "select time_mel, run_id
+			from timetable
+			where line_id = $lineID
+				and dir_id = $dirID
+				and stop_id in (select stop_id 
+								from lineStopsOrder 
+								where line_id = $lineID 
+								and dir_id = $dirID 
+								and order_id = 1
+								)
+			order by time_mel					
+		";
+		$result = getQueryResult($sql);
+		$row = mysqli_fetch_assoc($result);
+		$orderRunID = $row['run_id'];
+		return $orderRunID;
+	}
 	
 	
 	

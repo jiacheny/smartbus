@@ -7,8 +7,11 @@
 	$dirID = 20;
 
 	$time = date('Y-m-d\TH:i:s\Z');
-
-	generateTimetable($lineID,$dirID, "2015-02-02T09:00:00Z");
+	StopsOnLine($lineID);
+	BroadNextDepartures(18085);
+	SpecificNextDepartures($lineID, 22066,20,$time);
+	
+	//generateTimetable($lineID,$dirID, "2015-02-05 09:00:00");
 
 	echo "DONE";
 	/*

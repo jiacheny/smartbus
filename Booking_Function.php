@@ -49,9 +49,13 @@
 		$optID = $inputdata[2];
 		$bookingTime = $inputdata[3];
 		
+		$html = "";
+		
 		$temptime = strtotime($bookingTime);
 		$starttime = date('Y-m-d H:i:s',strtotime('-15 minutes', $temptime));
-		$endtime = date('Y-m-d H:i:s',strtotime('+1 hour', $temptime));
+		$endtime = date('Y-m-d H:i:s',strtotime('+60 minutes', $temptime));
+		
+		$html = $html.$endtime;
 		
 		$sql = "select stop_id from stopsInOrder where dir_id=$dirID and line_id=$lineID order by order_id";
 		$result = getQueryResult($sql);
@@ -69,8 +73,9 @@
 													from stopsInorder
 													where line_id = $lineID
 													and dir_id = $dirID
-													and stop_id = $optID )
-				)";
+													and stop_id = $optID )				
+				)
+				order by time_mel";
 		$result = getQueryResult($sql);
 		$runIDs = [];
 		while ($row = mysqli_fetch_assoc($result) ) {
@@ -151,7 +156,25 @@
 		return $preStopTime;
 	}
 
-
+	/*function sortTimetable($lineID,$dirID,$runID,){
+		
+		$sql = "select time_mel, run_id
+			from timetable
+			where line_id = $lineID
+				and dir_id = $dirID
+				and stop_id in (select stop_id 
+								from lineStopsOrder 
+								where line_id = $lineID 
+								and dir_id = $dirID 
+								and order_id = 1
+								)
+			order by time_mel					
+		";
+		$result = getQueryResult($sql);
+		$row = mysqli_fetch_assoc($result);
+		$orderRunID = $row['run_id'];
+		$return $orderRunID;
+	}*/
 
 
 
