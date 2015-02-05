@@ -51,7 +51,7 @@
 		
 		$temptime = strtotime($bookingTime);
 		$starttime = date('Y-m-d H:i:s',strtotime('-15 minutes', $temptime));
-		$endtime = date('Y-m-d H:i:s',strtotime('+15 minutes', $temptime));
+		$endtime = date('Y-m-d H:i:s',strtotime('+1 hour', $temptime));
 		
 		$sql = "select stop_id from stopsInOrder where dir_id=$dirID and line_id=$lineID order by order_id";
 		$result = getQueryResult($sql);
@@ -80,7 +80,7 @@
 
 		//display timetable
 		
-		$html = "<table class='pure-table pure-table-bordered'>";
+		$html = "<br><table class='pure-table pure-table-bordered'>";
 		foreach ($stopIDs as $key => $value) {
 			$html = $html."<tr>";
 			$html = $html."<td>".getStopName($lineID,$dirID,$value)."</td>";
