@@ -101,14 +101,14 @@
 					if($tempStopID == $optID){
 						$preStopTime = getPreStopTime($lineID,$dirID,$value2,$optID);
 						$preStopTime = date("H:i", strtotime($preStopTime));
-						$html = $html."<td style='text-align: center; background-color: #cc0000; color: white'><label><input type='checkbox'> ".$preStopTime."</label></td>";					
+						$html = $html."<td style='text-align: center; background-color: #cc0000; color: white'><label><input class='optCheckbox' type='checkbox'> ".$preStopTime."</label></td>";					
 					}
 					else $html = $html."<td style='text-align: center'> --- </td>";
 				}
 			}
 			$html = $html."</tr>";
 		}
-		$html = $html."</table> <br> <input type='button' class='pure-button pure-button-primary' value='Book Selected Stop(s)'> <br>";
+		$html = $html."</table> <br> <input id='bookChecked' type='button' class='pure-button pure-button-primary' value='Book Selected Stop(s)'> <br>";
 		echo json_encode($html);
 	}
  	if (isset($_POST['displayTimetable'])) { displayTimetable($_POST['displayTimetable']); }

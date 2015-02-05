@@ -47,7 +47,6 @@ $(document).ready(function(){
 		var hour = $("#selectHour").val();
 		var minute = $("#selectMinute").val();
 		var bookingTime = date+"T"+hour+":"+minute+":00Z";
-		console.log(lineID, dirID, optID, bookingTime);
 		$.ajax({
 		    url: "./Booking_Function.php",
 		    type: "POST",
@@ -59,10 +58,17 @@ $(document).ready(function(){
 				$("#timetable").append(data);
 			}
 		});	
-		console.log("END");
 	})
 	
-	
+	$("#bookChecked").click(function(){
+		console.log("HHHJHJLGHGHKH");
+		
+		
+	})
+		
+		
+		
+		
 	
 	
 	
