@@ -40,14 +40,123 @@
 	}
 	if (isset($_POST['selectStops'])) { selectStops($_POST['selectStops']); }
 	
-	//written by Jiachen Yan
-	function selectTime() {
+	//written by Ran Jing
+	function displayTimetable($inputdata){
 		
+		require_once('database.php');
+		$lineID = $inputdata[0];
+		$dirID = $inputdata[1];
+		$optID = $inputdata[2];
+		$bookingTime = $inputdata[3];
 		
+		$temptime = strtotime($bookingTime);
+		$starttime = date('Y-m-d H:i:s',strtotime('-15 minutes', $temptime));
+		$endtime = date('Y-m-d H:i:s',strtotime('+15 minutes', $temptime));
 		
+		$sql = "select stop_id from stopsInOrder where dir_id=$dirID and line_id=$lineID order by order_id";
+		$result = getQueryResult($sql);
+		$stopIDs = [];
+		while ($row = mysqli_fetch_assoc($result)) {
+			array_push($stopIDs, $row['stop_id']);
+		}
+		
+		$sql = "select run_id from timetable where line_id = $lineID and dir_id = $dirID 
+				and time_mel < '$endtime'
+				and time_mel > '$starttime'
+				and stop_id in (select stop_id
+								from stopsInOrder
+								where order_id in (select order_id-1
+													from stopsInorder
+													where line_id = $lineID
+													and dir_id = $dirID
+													and stop_id = $optID )
+				)";
+		$result = getQueryResult($sql);
+		$runIDs = [];
+		while ($row = mysqli_fetch_assoc($result) ) {
+			if (!in_array($row['run_id'], $runIDs))
+				array_push($runIDs, $row['run_id']);
+		}
+
+		//display timetable
+		
+		$html = "<table class='pure-table pure-table-bordered'>";
+		foreach ($stopIDs as $key => $value) {
+			$html = $html."<tr>";
+			$html = $html."<td>".getStopName($lineID,$dirID,$value)."</td>";
+			$tempStopID = $value;
+			foreach ($runIDs as $key2 => $value2) {
+				$sql = "select t.stop_id, run_id, time_mel from timetable as t, stops as s where t.stop_id=s.stop_id and t.stop_id=$value and run_id=$value2";
+				$result = getQueryResult($sql);
+				if ($row = mysqli_fetch_assoc($result)) {					
+					$tempTime = $row['time_mel'];
+					$tempTime = date("H:i", strtotime($tempTime));
+					$html = $html."<td style='text-align: center'>".$tempTime."</td>";
+				} else {
+					$html = $html."<br>".$tempStopID."<br>";
+					if($tempStopID == $optID){
+						$preStopTime = getPreStopTime($lineID,$dirID,$value2,$optID);
+						$preStopTime = date("H:i", strtotime($preStopTime));
+						$html = $html."<td style='text-align: center; background-color: #cc0000; color: white'>".$preStopTime."</td>";					
+					}
+					else $html = $html."<td style='text-align: center'> --- </td>";
+				}
+			}
+			$html = $html."</tr>";
+		}
+		$html = $html."</table> <br>";
+		echo json_encode($html);
+	}
+ 	if (isset($_POST['displayTimetable'])) { displayTimetable($_POST['displayTimetable']); }
+	
+	//written by Ran Jing
+	function getStopName ($lineID,$dirID,$stopID) {
+		require_once('database.php');
+		$sql = "select regular from stopsInOrder where line_id = $lineID and dir_id = $dirID and stop_id = $stopID";
+		$result = getQueryResult($sql);
+		$row = mysqli_fetch_assoc($result);
+		$type = $row['regular'];
+		if($type == 1){
+			$sql = "select location_name from stops where stop_id=$stopID";
+			$result = getQueryResult($sql);
+			$row = mysqli_fetch_assoc($result);
+			$stopName = $row['location_name'];
+			return $stopName;
+		}
+		elseif($type == 0){
+			$sql = "select location_name from stopsOpt where stop_id=$stopID";
+			$result = getQueryResult($sql);
+			$row = mysqli_fetch_assoc($result);
+			$stopName = $row['location_name'];
+			return $stopName;
+		}
 	}
 	
-	
+	//written by Ran Jing
+	function getPreStopTime($lineID,$dirID,$runID,$optID){	
+		require_once('database.php');
+		$sql = "select time_mel from timetable where line_id = $lineID and dir_id = $dirID 
+				and run_id = $runID
+				and stop_id in ( select stop_id
+						 	from stopsInOrder
+						 	where order_id in ( select order_id-1
+						 						from stopsInorder
+						 						where line_id = $lineID
+						 						and dir_id = $dirID
+						 						and stop_id = $optID
+						 )
+		)";
+		$result = getQueryResult($sql);
+		$row = mysqli_fetch_assoc($result);
+		$preStopTime = $row['time_mel'];
+		return $preStopTime;
+	}
+
+
+
+
+
+
 	//load search route
 	function loadRoute($line_id,$linedir_id,$date,$_time) {
 		$_week = date("w",strtotime($date));

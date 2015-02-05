@@ -163,5 +163,9 @@ form {
 }
 
 #selectHour, #selectMinute {
-	width: 46.5%;
+	width: 45%;
+}
+
+#timetable table {
+	margin: auto;
 }

@@ -87,7 +87,7 @@
 							HELLO, <?php echo $_SESSION['passenger']['id'] ?> ! <br>
 							WELCOME BACK!
 						</div>
-						<button class="button-success pure-button"> <a href="booking.php"> BOOK A STOP </a> </button>
+						<input type="button" class="button-success pure-button" onclick="location.href='booking.php';" value="BOOK A STOP">
 						<br>
 						<button type="submit" name="logout" value="logout" class="pure-button pure-button-primary" style="background-color: #cc0000"> LOGOUT </div>
 					</form>

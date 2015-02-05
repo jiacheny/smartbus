@@ -37,10 +37,30 @@ $(document).ready(function(){
 			}
 		});	
 		
-		
 	})
 	
-	
+	$("#searchBtn").click(function(){
+		var lineID = $("#selectLine").val();
+		var dirID = $("#selectDirection").val();
+		var optID = $("#selectStops").val();
+		var date = $("#selectDate").val();
+		var hour = $("#selectHour").val();
+		var minute = $("#selectMinute").val();
+		var bookingTime = date+"T"+hour+":"+minute+":00Z";
+		console.log(lineID, dirID, optID, bookingTime);
+		$.ajax({
+		    url: "./Booking_Function.php",
+		    type: "POST",
+		    data: {"displayTimetable": [lineID, dirID, optID, bookingTime]},
+		    dataType: "JSON",
+		    async: false,
+		    success: function(data) { 
+			    $("#timetable").empty();
+				$("#timetable").append(data);
+			}
+		});	
+		console.log("END");
+	})
 	
 	
 	

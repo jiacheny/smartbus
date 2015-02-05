@@ -6,8 +6,9 @@
 	$dirID = 20;
 	$optID = 3;
 	$bookingTime = '2015-02-03 15:00:00';
+	displayTimetable($lineID, $dirID, $optID, $bookingTime);
 	
-	function displayTimetable($lineID,$dirID,$optID,$bookingTime){
+	function displayTimetable($lineID, $dirID, $optID, $bookingTime){
 		$temptime = strtotime($bookingTime);
 		$starttime = date('Y-m-d H:i:s',strtotime('-15 minutes', $temptime));
 		$endtime = date('Y-m-d H:i:s',strtotime('+15 minutes', $temptime));
