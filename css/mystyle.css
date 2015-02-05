@@ -139,6 +139,10 @@ form {
 	height: 100px;
 }
 
+#timetable {
+	padding-bottom: 20px;
+}
+
 #searchdiv {
 	margin: auto;
 	text-align: center;
