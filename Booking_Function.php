@@ -40,14 +40,38 @@
 	}
 	if (isset($_POST['selectStops'])) { selectStops($_POST['selectStops']); }
 	
-	//written by Ran Jing
-	function displayTimetable($inputdata){
+	function timetableWorkflow ($inputdata){
 		
 		require_once('database.php');
+		require_once('API_Function.php');
 		$lineID = $inputdata[0];
 		$dirID = $inputdata[1];
 		$optID = $inputdata[2];
 		$bookingTime = $inputdata[3];
+		$bookingUTCTime = date("Y-m-d\TH:i:s\Z",strtotime($bookingTime));
+		$html = "";
+		
+		$check = checkTimetable ($lineID, $dirID, $bookingTime); 
+		
+		if($check){
+			$html = displayTimetable($lineID, $dirID, $optID, $bookingTime);
+		} else {			
+			generateTimetable($lineID, $dirID, $bookingUTCTime);
+			$html = displayTimetable($lineID, $dirID, $optID, $bookingTime);
+		}
+		
+		echo json_encode($html);
+	}
+	if (isset($_POST['timetableWorkflow'])) {timetableWorkflow($_POST['timetableWorkflow']); }
+	
+	//written by Ran Jing
+	function displayTimetable($lineID, $dirID, $optID, $bookingTime){
+		
+		/*require_once('database.php');
+		$lineID = $inputdata[0];
+		$dirID = $inputdata[1];
+		$optID = $inputdata[2];
+		$bookingTime = $inputdata[3];*/
 		
 		$html = "";
 		
@@ -108,9 +132,47 @@
 			$html = $html."</tr>";
 		}
 		$html = $html."</table> <br> <input id='bookChecked' type='button' class='pure-button pure-button-primary' value='Book Selected Stop(s)'> <br>";
-		echo json_encode($html);
+		return $html;
 	}
- 	if (isset($_POST['displayTimetable'])) { displayTimetable($_POST['displayTimetable']); }
+ 	
+ 	
+ 	function checkTimetable ($lineID, $dirID, $time){
+	 	
+	 	require_once("database.php");
+		
+		$check = 0;
+		$conn = createConnection ();
+	
+		$sql = "select distinct date_mel from timetable";
+
+		$result = getQueryResult($sql);
+		$tempDate = [];
+		while($row = mysqli_fetch_assoc($result)){
+			
+			$temp = $row['date_mel'];
+			
+			array_push($tempDate, $temp);
+		}
+		
+		$checkDate = date('Y-m-d',strtotime($time));
+		
+		foreach($tempDate as $key => $value){
+	
+			
+			$haveDate = $value;
+			if($checkDate == $haveDate){
+				$check = 1;
+				continue ;
+			}
+		
+			$check = 0;
+		
+		}
+	
+		return $check;
+	
+	}
+	
 	
 	//written by Ran Jing
 	function getStopName ($lineID,$dirID,$stopID) {

@@ -2,16 +2,17 @@
 	require_once("../API_Function.php");
 	require_once("../database.php");
 	
-	echo "hello";
 	$lineID = 7474;
-	$dirID = 20;
+	$dirID = 21;
 
 	$time = date('Y-m-d\TH:i:s\Z');
 	StopsOnLine($lineID);
 	BroadNextDepartures(22066);
-	SpecificNextDepartures($lineID, 22066, 21, $time);
+
+	SpecificNextDepartures($lineID, 22066, $dirID, $time);
+
 	
-	//generateTimetable($lineID,$dirID, "2015-02-05 09:00:00");
+	generateTimetable($lineID,$dirID, '2015-02-08T09:00:00Z');
 
 	echo "DONE";
 	/*

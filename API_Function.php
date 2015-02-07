@@ -24,7 +24,7 @@
 		 *Set full request URL
 		 */
 		$_URL = $_baseURL.$_midURL."&signature=".$_signature;
-		echo "<br> $_URL <br>";
+		//echo "<br> $_URL <br>";
 
 		//Get response as json object and return.
 		$_content = file_get_contents($_URL);
@@ -70,9 +70,19 @@
 		return $mel;
 	}
 	
+	function utcToMelDate ($utcString) {
+		$utc = strtotime($utcString);
+		date_default_timezone_set("Australia/Melbourne");
+		$mel = date('Y-m-d', $utc);
+		return $mel;
+	}
+	
+	//for test
+	/*$test = utcToMelDate(date("Y-m-d\TH:i:s\Z"));
+	$temp = date("Y-m-d",strtotime($test));
+	echo $temp."<br>";*/
+	
 	function generateTimetable($lineID,$dirID,$time){
-		
-		echo "start generating timetable";
 		
 		$timetable = [];
 		$sql="select stop_id from lineStopsOrder where dir_id = $dirID and line_id = $lineID order by order_id ";
@@ -83,8 +93,8 @@
 		
 		$conn = createConnection ();
 		foreach ($timetable as $key => $value) {
-
-			$temp = SpecificNextDepartures($lineID, $key, $dirID, $time);
+			$stopID = $key;
+			$temp = SpecificNextDepartures($lineID, $stopID, $dirID, $time);
 			$temp = reset($temp);
 			//$timetable1Stop = [];
 			foreach($temp as $key2 => $value2){				
@@ -94,14 +104,14 @@
 				$time_mel = utcToMel($time_utc);
 				
 				date_default_timezone_set("Australia/Melbourne");
-				$date_mel = utcToMel ($time);
-				echo $time;
-				$sql = "INSERT INTO timetable (line_id, dir_id, run_id, stop_id, date_mel, time_utc, time_mel) VALUES ($lineID, $dirID, $runID, $stopID, '$time_mel', '$time_utc', '$time_mel')";
+				$date_mel = $time;
+				//echo $time;
+				$sql = "INSERT INTO timetable (line_id, dir_id, run_id, stop_id, date_mel, time_utc, time_mel) VALUES ($lineID, $dirID, $runID, $stopID, '$date_mel', '$time_utc', '$time_mel')";
 				
 				if (mysqli_query($conn, $sql)) {
-					echo "New record created successfully<br>";
+					//echo "New record created successfully<br>";
 				} else {
-					echo "Error: " . $sql . "<br>" . mysqli_error($conn). "<br>";
+					//echo "Error: " . $sql . "<br>" . mysqli_error($conn). "<br>";
 				}
 			}
 		}

@@ -1,5 +1,6 @@
 <?php
 	require_once('Common_Function.php');
+	require_once('API_Function.php');
 ?>
 
 
@@ -43,8 +44,8 @@
 						<label class="searchLabel"> Date </label>
 						<select class="searchSelect" id="selectDate">
 							<option> Select A Date </option>
-							<option value="2015-02-03" > Today </option>
-							<option value="2015-02-04"> Tomorrow </option>
+							<option value=<?php echo utcToMelDate(date("Y-m-d\TH:i:s\Z")); ?> > Today </option>
+							<option value=<?php echo utcToMelDate(date("Y-m-d", strtotime("tomorrow"))); ?>> Tomorrow </option>
 						</select>
 					</div>
 					<div>

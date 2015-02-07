@@ -50,10 +50,11 @@ $(document).ready(function(){
 		$.ajax({
 		    url: "./Booking_Function.php",
 		    type: "POST",
-		    data: {"displayTimetable": [lineID, dirID, optID, bookingTime]},
+		    data: {"timetableWorkflow": [lineID, dirID, optID, bookingTime]},
 		    dataType: "JSON",
 		    async: false,
 		    success: function(data) { 
+			    console.log("hello && ", bookingTime);
 			    $("#timetable").empty();
 				$("#timetable").append(data);
 			}
