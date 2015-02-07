@@ -68,8 +68,8 @@ $(document).ready(function(){
 			var dirID = $("#selectDirection").val();
 			var stopID = $("#selectStops").val();
 			var runID = $(this).attr('name');
-			var time = $(this).val();
-			console.log(lineID, dirID, stopID, runID, time);
+			var arrivaltime = $(this).val();
+			console.log(lineID, dirID, stopID, runID, arrivaltimeime);
 		})
 		
 		

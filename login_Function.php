@@ -11,7 +11,7 @@
 
 		$_SESSION['passenger']['status'] = false;
 		if ($row['total']==1) {
-			$_SESSION['passenger']['username'] = $passengerId;
+			$_SESSION['passenger']['username'] = $passengerUsername;
 			$_SESSION['passenger']['status'] = true;
 		} 
 		else
@@ -27,7 +27,7 @@
 		
 		$_SESSION['driver']['status'] = false;
 		if ($row['total']==1) {
-			$_SESSION['driver']['username'] = $$driverId;
+			$_SESSION['driver']['username'] = $driverUsername;
 			$_SESSION['driver']['status'] = true;
 		}
 		else

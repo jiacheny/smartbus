@@ -6,14 +6,14 @@
 	$regexUserID = "/^[PDpd][0-9]{3}$/";
 	$firstChar = $_POST['username'][0];
 	
-	$id = isset($_POST['username'])? $_POST['username'] : NULL;
+	$username = isset($_POST['username'])? $_POST['username'] : NULL;
 	$password = isset($_POST['password'])? $_POST['password'] : NULL;
 	
 	$errorMsg = NULL;
 	
 	if(isset($_POST['login'])) {
 		try {
-			if($id == NULL){throw new customException("Empty ID!");}
+			if($username == NULL){throw new customException("Empty ID!");}
 			if($password == NULL){throw new customException("Empty password!");}
 			if ($firstChar=="P")
 				passengerLogin($username,$password);
@@ -59,7 +59,7 @@
 					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="pure-form pure-form-aligned">
 						<div class="pure-control-group">
 							<label for="userid"> USER ID: </label>
-							<input type="text" name="userid" value="<?php echo $_COOKIE['userid'] ?>"/>
+							<input type="text" name="username" value="<?php echo $_COOKIE['userid'] ?>"/>
 						</div>
 						<div class="pure-control-group">
 							<label for="password"> PASSWORD: </label>
@@ -100,7 +100,7 @@
 							Your today's job shown below.
 						</div>
 						<div id="JobList">
-							<?php displayDriverRoute(); ?>
+							
 						</div>
 						<br>
 						<button type="submit" name="logout" value="logout" class="pure-button pure-button-primary" style="background-color: #cc0000"> LOGOUT </div>
