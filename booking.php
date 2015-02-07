@@ -1,6 +1,7 @@
 <?php
 	require_once('Common_Function.php');
 	require_once('API_Function.php');
+	session_start();
 ?>
 
 

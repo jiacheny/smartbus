@@ -334,107 +334,34 @@
 			throw new customException("Empty Search Result!");
 	}
 
-	//insert booking
-	function insertBooking($_select)
-	{
-		//define file name
-		$_filename = "./schedule/".$_SESSION['line_id']."/".$_SESSION['linedir_id']."/".date("Ymd",strtotime($_SESSION['date'])).date("Hi",strtotime($_SESSION['result'][0]['time'])).".xls";
-		$_rela_station = "./busRoute/".$_SESSION['line_id']."/relation.xls";
+	//written by Jiachen Yan
+	function createBooking($inputdata) {
+		
+		require_once('database.php');
+		
+		$passengerUsername = $_SESSION['passenger']['username'];
+		$lineID = $inputdata[0];
+		$dirID = $inputdata[1];
+		$stopID = $inputdata[2];
+		$runID = $inputdata[3];
+		$arrivaltime = $inputdata[4];
+		$bookingTime_utc = date("Y-m-d\TH:i:s\Z");
 
-		$fp = fopen($_filename,"wb");
-
-		$fptr = fopen("./data/testRoute.xls", "rb");
-		rewind($fptr);
-		while (!feof($fptr)) {
-			$string = fgets($fptr);
-			$tmp = explode("\t", $string);
-
-			if ($tmp[0] == $_SESSION['line_id']) {
-				fputs($fp,$tmp[1]."\t");
-				if ($tmp [2] == $_SESSION['linedir_id']) {
-					fputs($fp,$tmp[3].PHP_EOL);
-				}
-				else
-					fputs($fp,$tmp[5].PHP_EOL);
+		$sql1 = "select * from passenger where username='$passengerUsername'";
+		$result = getQueryResult($sql1);
+		$html ="";
+		while ($row = mysqli_fetch_assoc($result)) {
+			$passengerid = $row['id'];
+			$passengerid = 9;
+			$sql2 = "INSERT INTO booking (passenger_id, line_id, dir_id, stop_id, run_id, arrival_time, booking_time) VALUES ($passengerid, $lineID, $dirID, $stopID, $runID, '$arrivaltime', '$bookingTime_utc')";
+			$conn = createConnection ();
+			if(mysqli_query($conn, $sql2)) {
+				$html = $html."<p> The stop $stopID at ".date("H:i", strtotime($arrivaltime))." is booked successful.  </p>";
+			} else {
+				$html = $html."<p style='color: rgb(202, 60, 60);'> The stop $stopID at ".date("H:i", strtotime($arrivaltime))." is booked unsuccessful.  </p>";
 			}
 		}
-		fclose($fptr);
-
-		$fptr = fopen($_rela_station, "rb");
-		for($i=0; $i<(count($_SESSION['result'])); $i++)
-		{
-			$change = false;
-			for($j=0; $j<count($_select); $j++)
-			{
-				rewind($fptr);
-				while(!feof($fptr))
-				{
-					$string = fgets($fptr);
-					$tmp = explode("\t", $string);
-
-					if($_select[$j] == $tmp[0])
-					{		
-						if(strstr($tmp[1],$_SESSION['result'][$i]['stop_id']) != false)
-							$change = true;
-						break;
-					}
-				}
-			}
-			foreach($_SESSION['result'][$i] as $key => $value)
-			{
-				if($key == "status" && $change == true)
-					$value = "Regular";
-				if($key != "time")
-					fputs($fp,$value."\t");
-				elseif ($i == count($_SESSION['result'])-1) {
-					fputs($fp,$value);
-				}
-				else
-					fputs($fp,$value.PHP_EOL);
-			}
-		}
-		fclose($fptr);
-		fclose($fp);
+		echo json_encode($html);
 	}
-
-	//change direction drop-down box
-	function changeDir()
-	{
-		//check the file
-		if(file_exists("./data/testRoute.xls"))
-		{
-			//open file
-			$fp = fopen("./data/testRoute.xls","rb");
-			rewind($fp);
-			
-			//read file and load data
-			while(!feof($fp))
-			{
-				$string = fgets($fp);
-				$tmp = explode("\t",$string);
-				
-				if($tmp[0] == $_GET['route'])
-				{
-					$option[0] = $tmp[2];
-					$option[1] = $tmp[3];
-					$option[2] = $tmp[4];
-					$option[3] = $tmp[5];
-					break;
-				}
-			}
-			//set the response
-			$response = "(Select Direction),".$option[0].",".$option[1].",".$option[2].",".$option[3];
-		}
-		else
-			die("File not found!");
-		//output the response
-		echo $response;
-	}
-	
-	//if the Route Selection onchange, call changeDir() function
-	if(isset($_GET['route']))
-	{
-		changeDir();
-	}
-
+	if (isset($_POST['createBooking'])) { createBooking($_POST['createBooking']); }
 ?>

@@ -34,10 +34,8 @@
 			} else {
 				$html = $html."<p style='color: rgb(202, 60, 60);'> The stop $stopID at ".date("H:i", strtotime($arrivaltime))." is booked unsuccessful.  </p>";
 			}
-			echo $html;
 		}
-
-		
+		echo json_encode($html);
 	}
 	
 	

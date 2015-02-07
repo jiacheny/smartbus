@@ -54,7 +54,6 @@ $(document).ready(function(){
 		    dataType: "JSON",
 		    async: false,
 		    success: function(data) { 
-			    console.log("hello && ", bookingTime);
 			    $("#timetable").empty();
 				$("#timetable").append(data);
 			}
@@ -62,17 +61,28 @@ $(document).ready(function(){
 	})
 	
 	$("#timetable").on("click", "#bookChecked", function(){
-		
+		var lineID = $("#selectLine").val();
+		var dirID = $("#selectDirection").val();
+		var optID = $("#selectStops").val();
+		console.log(lineID, dirID, optID);
 		$(".optCheckbox:checked").each(function(){
-			var lineID = $("#selectLine").val();
-			var dirID = $("#selectDirection").val();
-			var stopID = $("#selectStops").val();
 			var runID = $(this).attr('name');
 			var arrivaltime = $(this).val();
-			console.log(lineID, dirID, stopID, runID, arrivaltimeime);
-		})
-		
-		
+			console.log(runID, arrivaltime);
+			$.ajax({
+			    url: "./Booking_Function.php",
+			    type: "POST",
+			    data: {"createBooking": [lineID, dirID, optID, runID, arrivaltime]},
+			    dataType: "JSON",
+			    async: false,
+			    success: function(data) { 
+				    console.log("hellosdasdasds");
+				    console.log(data);
+					$("#timetable").append(data);
+				}
+			});	
+			
+		})		
 	})
 		
 		
