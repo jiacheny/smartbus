@@ -99,8 +99,8 @@
 				} else {
 					if($tempStopID == $optID){
 						$preStopTime = getPreStopTime($lineID,$dirID,$value2,$optID);
-						$preStopTime = date("H:i", strtotime($preStopTime));
-						$html = $html."<td style='text-align: center; background-color: #cc0000; color: white'><label><input class='optCheckbox' type='checkbox'> ".$preStopTime."</label></td>";					
+						//$preStopTime = date("H:i", strtotime($preStopTime));
+						$html = $html."<td style='text-align: center; background-color: #cc0000; color: white'><label><input class='optCheckbox' type='checkbox' name=$value2 value='$preStopTime'> ".date("H:i", strtotime($preStopTime))."</label></td>";		
 					}
 					else $html = $html."<td style='text-align: center'> --- </td>";
 				}

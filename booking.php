@@ -89,9 +89,9 @@
 						<input type="button" id="searchBtn" class="pure-button pure-button-primary" value="Search">
 			        </div>
 				</form>
-				<div id="timetable"> </div>
+				
 			</div>
-			
+			<div id="timetable"> </div>
 			<?php include './include/footer.inc';?>
 			
 		</div>

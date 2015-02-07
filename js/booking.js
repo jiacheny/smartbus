@@ -60,8 +60,16 @@ $(document).ready(function(){
 		});	
 	})
 	
-	$("#bookChecked").click(function(){
-		console.log("HHHJHJLGHGHKH");
+	$("#timetable").on("click", "#bookChecked", function(){
+		
+		$(".optCheckbox:checked").each(function(){
+			var lineID = $("#selectLine").val();
+			var dirID = $("#selectDirection").val();
+			var stopID = $("#selectStops").val();
+			var runID = $(this).attr('name');
+			var time = $(this).val();
+			console.log(lineID, dirID, stopID, runID, time);
+		})
 		
 		
 	})

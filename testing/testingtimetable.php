@@ -8,8 +8,8 @@
 
 	$time = date('Y-m-d\TH:i:s\Z');
 	StopsOnLine($lineID);
-	BroadNextDepartures(18085);
-	SpecificNextDepartures($lineID, 22066,20,$time);
+	BroadNextDepartures(22066);
+	SpecificNextDepartures($lineID, 22066, 21, $time);
 	
 	//generateTimetable($lineID,$dirID, "2015-02-05 09:00:00");
 
