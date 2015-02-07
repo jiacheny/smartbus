@@ -67,18 +67,19 @@
 	//written by Ran Jing
 	function displayTimetable($lineID, $dirID, $optID, $bookingTime){
 		
-		/*require_once('database.php');
-		$lineID = $inputdata[0];
+		//require_once('API_function.php');
+		/*$lineID = $inputdata[0];
 		$dirID = $inputdata[1];
 		$optID = $inputdata[2];
 		$bookingTime = $inputdata[3];*/
 		
 		$html = "";
-		
+		$conn = createConnection ();
 		$temptime = strtotime($bookingTime);
 		$starttime = date('Y-m-d H:i:s',strtotime('-15 minutes', $temptime));
+		$starttime = utcToMel ($starttime);
 		$endtime = date('Y-m-d H:i:s',strtotime('+60 minutes', $temptime));
-		
+		$endtime = utcToMel ($endtime);
 		
 		$sql = "select stop_id from stopsInOrder where dir_id=$dirID and line_id=$lineID order by order_id";
 		$result = getQueryResult($sql);

@@ -3,9 +3,10 @@
 	require_once("../database.php");
 
 	$lineID = 7474;
-	$dirID = 20;
+	$dirID = 21;
 	$optID = 4;
-	$bookingTime = '2015-02-03 08:00:00';
+	$bookingTime = '2015-02-09 08:00:00';
+	$conn = createConnection ();
 	displayTimetable($lineID, $dirID, $optID, $bookingTime);
 	
 	function displayTimetable($lineID, $dirID, $optID, $bookingTime){
@@ -26,8 +27,8 @@
 		print_r(array_values($stopIDs));
 	
 		$sql = "select run_id from timetable where line_id = $lineID and dir_id = $dirID 
-			and time_mel < '2015-02-03 09:00:00'
-			and time_mel > '2015-02-03 07:45:00'
+			and time_mel < 'endtime'
+			and time_mel > 'starttime'
 			and stop_id in ( select stop_id
 						 	from stopsInOrder
 						 	where order_id in ( select order_id-1
