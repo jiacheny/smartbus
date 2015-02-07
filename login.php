@@ -1,12 +1,12 @@
 <?php
 	require_once('Common_Function.php');
 	
-	setcookie("userid",$_POST['userid'],time()+3600);
+	setcookie("username",$_POST['username'],time()+3600);
 	
 	$regexUserID = "/^[PDpd][0-9]{3}$/";
-	$firstChar = $_POST['userid'][0];
+	$firstChar = $_POST['username'][0];
 	
-	$id = isset($_POST['userid'])? $_POST['userid'] : NULL;
+	$id = isset($_POST['username'])? $_POST['username'] : NULL;
 	$password = isset($_POST['password'])? $_POST['password'] : NULL;
 	
 	$errorMsg = NULL;
@@ -16,9 +16,9 @@
 			if($id == NULL){throw new customException("Empty ID!");}
 			if($password == NULL){throw new customException("Empty password!");}
 			if ($firstChar=="P")
-				passengerLogin($id,$password);
+				passengerLogin($username,$password);
 			elseif ($firstChar=="D") {
-				driverLogin($id,$password);
+				driverLogin($username,$password);
 			} else {
 				{throw new customException("Username must start with P or D!");}
 			}
