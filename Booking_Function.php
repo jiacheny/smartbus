@@ -41,16 +41,14 @@
 	if (isset($_POST['selectStops'])) { selectStops($_POST['selectStops']); }
 	
 	function timetableWorkflow ($inputdata){
-		
-		date_default_timezone_set("UTC");
+			
 		require_once('database.php');
 		require_once('API_Function.php');
 		$lineID = $inputdata[0];
 		$dirID = $inputdata[1];
-		$optID = $inputdata[2];
-		$bookingTime = $inputdata[3];
-		$bookingTimeStr = strtotime($bookingTime);
-		$bookingUTCTime = date("Y-m-d\TH:i:s\Z",$bookingTimeStr);
+		$optID = $inputdata[2];		
+		$bookingTime = $inputdata[3];		
+		$bookingUTCTime = MelToutc($bookingTime);
 		$html = "";
 		
 		$check = checkTimetable ($lineID, $dirID, $bookingTime); 
@@ -74,14 +72,12 @@
 		$dirID = $inputdata[1];
 		$optID = $inputdata[2];
 		$bookingTime = $inputdata[3];*/
-		date_default_timezone_set("UTC");
+		
 		$html = "";
 		$conn = createConnection ();
-		$bookingUTCTime = date("Y-m-d\TH:i:s\Z",strtotime($bookingTime));
-		
+		date_default_timezone_set("UTC");		
 		$temptime = strtotime($bookingTime);
 		$starttime = date('Y-m-d H:i:s',strtotime('-15 minutes', $temptime));
-		
 		$endtime = date('Y-m-d H:i:s',strtotime('+60 minutes', $temptime));
 		
 		
@@ -123,14 +119,13 @@
 				$result = getQueryResult($sql);
 				if ($row = mysqli_fetch_assoc($result)) {					
 					$tempTime = $row['time_mel'];
-					$tempTime = date("Y-m-d\TH:i:s\Z", strtotime($tempTime));
-					
+					//$tempTime = date("Y-m-d\TH:i:s\Z", strtotime($tempTime));
 					$html = $html."<td style='text-align: center'>".$tempTime."</td>";
 				} else {
 					if($tempStopID == $optID){
 						$preStopTime = getPreStopTime($lineID,$dirID,$value2,$optID);
 						//$preStopTime = date("H:i", strtotime($preStopTime));
-						$html = $html."<td style='text-align: center; background-color: #cc0000; color: white'><label><input class='optCheckbox' type='checkbox' name=$value2 value='$preStopTime'> ".date("Y-m-d\TH:i:s\Z", strtotime($preStopTime))."</label></td>";		
+						$html = $html."<td style='text-align: center; background-color: #cc0000; color: white'><label><input class='optCheckbox' type='checkbox' name=$value2 value='$preStopTime'> ".$preStopTime."</label></td>";		
 					}
 					else $html = $html."<td style='text-align: center'> --- </td>";
 				}
@@ -243,101 +238,6 @@
 		$return $orderRunID;
 	}*/
 
-
-
-
-	//load search route
-	function loadRoute($line_id,$linedir_id,$date,$_time) {
-		$_week = date("w",strtotime($date));
-		//set the file path
-		if($_week == "0" || $_week == "6")
-			$_filename = "./busRoute/".$line_id."/".$_week."/".$linedir_id.".xls";
-		else
-			$_filename = "./busRoute/".$line_id."/".$linedir_id.".xls";
-		//check file
-		if(file_exists($_filename)) {
-			//open file
-			$fp = fopen($_filename,"rb");
-			rewind($fp);
-			
-			$num = NULL;
-			//load data
-			for($i=0; !feof($fp); $i++) {
-				$string = fgets($fp);
-				$tmp = explode("\t",$string);
-				
-				$result[$i]['location_name'] = trim($tmp[1]);
-				$result[$i]['stop_id'] = trim($tmp[0]);
-				$result[$i]['lat'] = trim($tmp[3]);
-				$result[$i]['lon'] = trim($tmp[4]);
-				$result[$i]['status'] = trim($tmp[5]);
-				
-				if($i == 0) {
-					for($j=6; $j<count($tmp); $j++) {
-						if(strtotime(trim($tmp[$j])) >= strtotime($_time)) {
-							$num = $j;
-							break;
-						}
-					}
-					if($num == NULL)
-						throw new customException("No available at this time!");
-				}
-				$result[$i]['time'] = str_replace(PHP_EOL, '',trim($tmp[$num]));
-			}
-			fclose($fp);
-			
-			$_filename = "./schedule/".$line_id."/".$linedir_id."/".date("Ymd",strtotime($date)).date("Hi",strtotime($result[0]['time'])).".xls";
-			
-			if(file_exists($_filename)) {
-				$fp = fopen($_filename,"rb");
-				rewind($fp);
-				$string = fgets($fp);
-
-				for($i=0; !feof($fp); $i++)
-				{
-					$string = fgets($fp);
-					if($string == NULL) break;
-					$tmp = explode("\t",$string);
-					
-					$result[$i]['status'] = trim($tmp[4]);
-				}
-				fclose($fp);
-			}
-			$_SESSION['result'] = $result;
-		}
-		else
-			throw new customException("File not Found!");
-	}
-	
-	//display the search result
-	function displaySearchRoute()
-	{
-		//check if it is NULL or not
-		if(isset($_SESSION['result']) && $_SESSION['result'] != NULL)
-		{
-			//For each result, display the location name, destination name and time.
-			for($i=0; $i<count($_SESSION['result']); $i++)
-			{
-				echo "<tr>";
-				echo "<td>";
-				echo $_SESSION['result'][$i]['location_name'];
-				echo "</td>";
-				echo "<td>";
-				$_select = $_SESSION['result'][$i]['stop_id'];
-				echo "<input type='checkbox' name='bookStop[]' value='$_select'";
-				if($_SESSION['result'][$i]['status'] != "Optional"){echo " disabled";}
-				echo "/>";
-				echo $_SESSION['result'][$i]['time'];
-				echo "</td>";
-				echo "<td>";
-				echo $_SESSION['result'][$i]['status'];
-				echo "</td>";
-				echo "</tr>";
-			}
-		}
-		else
-			throw new customException("Empty Search Result!");
-	}
 
 	//written by Jiachen Yan
 	function createBooking($inputdata) {

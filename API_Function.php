@@ -63,10 +63,30 @@
 		return $_content;
 	}
 	
+	function MelToutc($time){	
+		$UTC = new DateTimeZone("UTC");		
+		$MEL = new DateTimeZone("Australia/Melbourne");
+		$date = new DateTime($time, $MEL );
+		$date->setTimezone( $UTC );	
+		return $date->format('Y-m-d\TH:i:s\Z');
+	}	
+	
+		
+	function utcToMel ($time){
+		
+		$UTC = new DateTimeZone("UTC");
+		$MEL = new DateTimeZone("Australia/Melbourne");
+		$date = new DateTime($time, $UTC );
+		$date->setTimezone( $MEL );
+		return $date->format('Y-m-d\TH:i:s\Z');
+		
+	}
+	
+	/*
 	function utcToMel ($utcString) {
 		$utc = strtotime($utcString);
-		date_default_timezone_set("UTC");
-		$utctime = date('Y-m-d\TH:i:s\Z',$utc);
+		//date_default_timezone_set("UTC");
+		//$utctime = date('Y-m-d\TH:i:s\Z',$utc);	
 		date_default_timezone_set("Australia/Melbourne");
 		$mel = date('Y-m-d\TH:i:s\Z', $utc);
 		return $mel;
@@ -92,11 +112,8 @@
 		$mel = date('H:i', $utc);
 		return $mel;
 	}
+	*/
 	
-	//for test
-	/*$test = utcToMelDate(date("Y-m-d\TH:i:s\Z"));
-	$temp = date("Y-m-d",strtotime($test));
-	echo $temp."<br>";*/
 	
 	function generateTimetable($lineID,$dirID,$time){
 		

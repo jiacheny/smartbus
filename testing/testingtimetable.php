@@ -15,7 +15,7 @@
 	//SpecificNextDepartures($lineID, 22066, $dirID, $time);
 
 	
-	generateTimetable($lineID,$dirID, $time);
+	generateTimetable($lineID,$dirID, '2015-02-10');
 
 	echo "DONE";
 	/*
