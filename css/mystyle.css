@@ -102,8 +102,22 @@ a:active {
 
 #universalLogin {
 	line-height: 400px;
+	min-height: 400px;
 	text-align: center;
 	vertical-align: middle;
+}
+
+#historydiv table {
+	margin: auto;
+	line-height: normal;
+}
+
+#historydiv {
+	line-height: normal;
+}
+
+#historyBack {
+	margin: 10px auto 10px auto;
 }
 
 form {
@@ -121,7 +135,7 @@ form {
 }
 
 #routenumberinfo button {
-	margin: auto 10px auto 10px;
+	margin: auto 20px auto 20px;
 }
 
 #legend {

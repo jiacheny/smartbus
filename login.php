@@ -40,14 +40,15 @@
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="./css/mystyle.css">
+		<link rel="stylesheet" type="text/css" href="./css/font-awesome-4.3.0/css/font-awesome.min.css"/>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="js/booking.js"></script>
 		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
 		<title>Passenger View</title>
 	</head>
 	
 	<body>
 		<div style="background-color: white">
-			<div id="container">
 			
 			<?php include './include/top.inc';?>
 			
@@ -80,16 +81,17 @@
 							text-shadow: 0 1px 1px rgba(0,0,0,0.2);
 						}
 						.button-success{background: rgb(28,184,65);}
-							
 					</style>
 					<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 						<div class="pure-control-group">
-							HELLO, <?php echo $_SESSION['passenger']['id'] ?> ! <br>
+							HELLO, <?php echo $_SESSION['passenger']['username'] ?> ! <br>
 							WELCOME BACK!
 						</div>
 						<input type="button" class="button-success pure-button" onclick="location.href='booking.php';" value="BOOK A STOP">
 						<br>
-						<button type="submit" name="logout" value="logout" class="pure-button pure-button-primary" style="background-color: #cc0000"> LOGOUT </div>
+						<input type="button" class="button-success pure-button" id="history" value="BOOKING HISTORY">
+						<br>
+						<button type="submit" name="logout" value="logout" class="pure-button pure-button-primary" style="background-color: #cc0000"> <i class="fa fa-sign-out"></i> LOGOUT </div>
 					</form>
 				</div>
 			<?php } elseif($_SESSION['driver']['status']) { ?>
@@ -103,7 +105,7 @@
 							
 						</div>
 						<br>
-						<button type="submit" name="logout" value="logout" class="pure-button pure-button-primary" style="background-color: #cc0000"> LOGOUT </div>
+						<button type="submit" name="logout" value="logout" class="pure-button pure-button-primary" style="background-color: #cc0000"> <i class="fa fa-sign-out"></i> LOGOUT </div>
 						<br>
 					</form>
 				</div>
@@ -117,7 +119,6 @@
 					</form>
 				</div>
 			<?php } ?>
-			</div>
 			
 			<?php include './include/footer.inc';?>
 			

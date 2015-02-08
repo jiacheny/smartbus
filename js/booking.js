@@ -85,7 +85,20 @@ $(document).ready(function(){
 		})		
 	})
 		
-		
+	$("#history").click(function(){
+		$("#universalLogin").empty();
+		$.ajax({
+		    url: "./Booking_Function.php",
+		    type: "POST",
+		    data: {"displayBookingHistory":"call"},
+		    dataType: "JSON",
+		    async: false,
+		    success: function(data) { 
+				$("#universalLogin").append(data);
+			}
+		});	
+
+	})
 		
 		
 	

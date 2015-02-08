@@ -361,12 +361,42 @@
 			$sql2 = "INSERT INTO booking (passenger_id, line_id, dir_id, stop_id, run_id, arrival_time, booking_time) VALUES ($passengerid, $lineID, $dirID, $stopID, $runID, '$arrivaltime', '$bookingTime_utc')";
 			$conn = createConnection ();
 			if(mysqli_query($conn, $sql2)) {
-				$html = $html."<p> The stop $stopID at ".date("H:i", strtotime($arrivaltime))." is booked successful.  </p>";
+				$html = $html."<p> The stop $stopID at ".date("H:i", strtotime($arrivaltime))." is booked successfully.</p>";
 			} else {
-				$html = $html."<p style='color: rgb(202, 60, 60);'> The stop $stopID at ".date("H:i", strtotime($arrivaltime))." is booked unsuccessful.  </p>";
+				$html = $html."<p style='color: rgb(202, 60, 60);'> The stop $stopID at ".date("H:i", strtotime($arrivaltime))." is booked <b>unsuccessful</b>.</p>";
 			}
 		}
 		echo json_encode($html);
 	}
 	if (isset($_POST['createBooking'])) { createBooking($_POST['createBooking']); }
+	
+	function displayBookingHistory () {
+		
+		require_once('database.php');
+		
+		$passengerUsername = $_SESSION['passenger']['username'];
+		$sql1 = "select * from passenger where username='$passengerUsername'";
+		$result = getQueryResult($sql1);
+		$row = mysqli_fetch_assoc($result);
+		$passengerid = $row['id'];
+		
+		$sql2 = "select booking_time, line_number, dir_name, location_name, arrival_time from booking as b, passenger as p, line as l, stopsOpt as s, direction as d 
+			where b.passenger_id=p.id and b.line_id=l.line_id and s.stop_id=b.stop_id and d.dir_id=b.dir_id and b.line_id=d.line_id and b.passenger_id=$passengerid order by booking_time desc";
+		$result = getQueryResult($sql2);
+		$html =  "<div id='historydiv'><table class='pure-table pure-table-bordered'><caption><h2> Booking History </h2></caption>";
+		$html = $html."<thead style='text-align: center'> <tr> <th>Booking Time</th><th>Line</th><th>Direction</th><th>Stops</th><th>Arrival Time</th> </tr> </thead> <tbody>";
+		while ($row=mysqli_fetch_assoc($result)) {
+			$html = $html."<tr>";
+			$html = $html."<td>".$row['booking_time']."</td>";
+			$html = $html."<td>".$row['line_number']."</td>";
+			$html = $html."<td>".$row['dir_name']."</td>";
+			$html = $html."<td>".$row['location_name']."</td>";
+			$html = $html."<td>".$row['arrival_time']."</td>";
+			$html = $html."</tr>";
+		}
+		$html = $html."</tbody></table>";
+		$html = $html."<input type='button' id='historyBack' class='button-success pure-button' onclick='location.href=\"login.php\";' value='Back'></div>";
+		echo  json_encode($html);
+	}
+	if (isset($_POST['displayBookingHistory'])) { displayBookingHistory(); }
 ?>
