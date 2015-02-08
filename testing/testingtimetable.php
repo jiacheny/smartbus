@@ -1,18 +1,21 @@
 <?php
-	require_once("../API_Function.php");
+	require_once("API_Function_testing.php");
 	require_once("../database.php");
 	
 	$lineID = 7474;
 	$dirID = 21;
+	date_default_timezone_set("UTC");
+	$time = date("Y-m-d\TH:i:s\Z");
+	echo "time is ".$time."<br>";
+	$temp = date("Y-m-d\TH:i:s\Z",strtotime($time));
+	echo "temp is ".$temp."<br>";
+	//StopsOnLine($lineID);
+	//BroadNextDepartures(22066);
 
-	$time = date('Y-m-d\TH:i:s\Z');
-	StopsOnLine($lineID);
-	BroadNextDepartures(22066);
-
-	SpecificNextDepartures($lineID, 22066, $dirID, $time);
+	//SpecificNextDepartures($lineID, 22066, $dirID, $time);
 
 	
-	generateTimetable($lineID,$dirID, '2015-02-08T09:00:00Z');
+	generateTimetable($lineID,$dirID, $time);
 
 	echo "DONE";
 	/*

@@ -24,7 +24,7 @@
 		 *Set full request URL
 		 */
 		$_URL = $_baseURL.$_midURL."&signature=".$_signature;
-		//echo "<br> $_URL <br>";
+		echo "<br> $_URL <br>";
 
 		//Get response as json object and return.
 		$_content = file_get_contents($_URL);

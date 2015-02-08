@@ -42,13 +42,15 @@
 	
 	function timetableWorkflow ($inputdata){
 		
+		date_default_timezone_set("UTC");
 		require_once('database.php');
 		require_once('API_Function.php');
 		$lineID = $inputdata[0];
 		$dirID = $inputdata[1];
 		$optID = $inputdata[2];
 		$bookingTime = $inputdata[3];
-		$bookingUTCTime = date("Y-m-d\TH:i:s\Z",strtotime($bookingTime));
+		$bookingTimeStr = strtotime($bookingTime);
+		$bookingUTCTime = date("Y-m-d\TH:i:s\Z",$bookingTimeStr);
 		$html = "";
 		
 		$check = checkTimetable ($lineID, $dirID, $bookingTime); 
@@ -72,14 +74,16 @@
 		$dirID = $inputdata[1];
 		$optID = $inputdata[2];
 		$bookingTime = $inputdata[3];*/
-		
+		date_default_timezone_set("UTC");
 		$html = "";
 		$conn = createConnection ();
+		$bookingUTCTime = date("Y-m-d\TH:i:s\Z",strtotime($bookingTime));
+		
 		$temptime = strtotime($bookingTime);
 		$starttime = date('Y-m-d H:i:s',strtotime('-15 minutes', $temptime));
-		$starttime = utcToMel ($starttime);
+		
 		$endtime = date('Y-m-d H:i:s',strtotime('+60 minutes', $temptime));
-		$endtime = utcToMel ($endtime);
+		
 		
 		$sql = "select stop_id from stopsInOrder where dir_id=$dirID and line_id=$lineID order by order_id";
 		$result = getQueryResult($sql);
@@ -119,13 +123,14 @@
 				$result = getQueryResult($sql);
 				if ($row = mysqli_fetch_assoc($result)) {					
 					$tempTime = $row['time_mel'];
-					$tempTime = date("H:i", strtotime($tempTime));
+					$tempTime = date("Y-m-d\TH:i:s\Z", strtotime($tempTime));
+					
 					$html = $html."<td style='text-align: center'>".$tempTime."</td>";
 				} else {
 					if($tempStopID == $optID){
 						$preStopTime = getPreStopTime($lineID,$dirID,$value2,$optID);
 						//$preStopTime = date("H:i", strtotime($preStopTime));
-						$html = $html."<td style='text-align: center; background-color: #cc0000; color: white'><label><input class='optCheckbox' type='checkbox' name=$value2 value='$preStopTime'> ".date("H:i", strtotime($preStopTime))."</label></td>";		
+						$html = $html."<td style='text-align: center; background-color: #cc0000; color: white'><label><input class='optCheckbox' type='checkbox' name=$value2 value='$preStopTime'> ".date("Y-m-d\TH:i:s\Z", strtotime($preStopTime))."</label></td>";		
 					}
 					else $html = $html."<td style='text-align: center'> --- </td>";
 				}

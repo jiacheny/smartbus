@@ -22,9 +22,9 @@
 			array_push($tempDate, $temp);
 		}
 		print_r(array_values($tempDate));
-		
+		$checkTime = date('Y-m-d\TH:i:s\Z'.strtotime($time));
 		$checkDate = date('Y-m-d',strtotime($time));
-		
+		echo "check time is".$checkTime."<br>";
 		echo "checkdate is ".$checkDate."<br>";
 		foreach($tempDate as $key => $value){
 	

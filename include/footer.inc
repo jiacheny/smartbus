@@ -4,6 +4,6 @@
 	<span>
 		<b>RMIT Summer Project</b>: Sustainable Bus System.
 		<b>Supervisor</b>: Margaret Hamilton & Maria Spichkova.
-		<b>Team</b>: Jiachen Yan, Ran Jing, Dung Ngoc Do.
+		<b>Team</b>: Jiachen Yan, Ran Jing.
 	</span>
 </div>
