@@ -63,13 +63,18 @@
 		return $_content;
 	}
 	
-	function MelToutc($time){	
-		$UTC = new DateTimeZone("UTC");		
+	function MelToutc($time){
+			
 		$MEL = new DateTimeZone("Australia/Melbourne");
+		$UTC = new DateTimeZone("UTC");				
 		$date = new DateTime($time, $MEL );
 		$date->setTimezone( $UTC );	
 		return $date->format('Y-m-d\TH:i:s\Z');
 	}	
+	
+	/*$time = "2015-02-09T03:00:00Z";
+	$uts = MelToutc($time);
+	echo $uts;*/
 	
 		
 	function utcToMel ($time){
@@ -81,6 +86,16 @@
 		return $date->format('Y-m-d\TH:i:s\Z');
 		
 	}
+	function utcToMelDate ($time){
+		
+		$UTC = new DateTimeZone("UTC");
+		$MEL = new DateTimeZone("Australia/Melbourne");
+		$date = new DateTime($time, $UTC );
+		$date->setTimezone( $MEL );
+		return $date->format('Y-m-d');
+		
+	}
+
 	
 	/*
 	function utcToMel ($utcString) {
@@ -117,7 +132,7 @@
 	
 	function generateTimetable($lineID,$dirID,$time){
 		
-		echo " in time is ".$time."<br>";
+	
 		$timetable = [];
 		$sql="select stop_id from lineStopsOrder where dir_id = $dirID and line_id = $lineID order by order_id ";
 		$result = getQueryResult($sql);

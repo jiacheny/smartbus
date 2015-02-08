@@ -47,7 +47,9 @@
 		$lineID = $inputdata[0];
 		$dirID = $inputdata[1];
 		$optID = $inputdata[2];		
-		$bookingTime = $inputdata[3];		
+		$bookingTime = $inputdata[3];
+		date_default_timezone_set("UTC");
+		$bookingTime = date('Y-m-d H:i:s',strtotime($bookingTime));		
 		$bookingUTCTime = MelToutc($bookingTime);
 		$html = "";
 		
@@ -75,8 +77,9 @@
 		
 		$html = "";
 		$conn = createConnection ();
-		date_default_timezone_set("UTC");		
-		$temptime = strtotime($bookingTime);
+		date_default_timezone_set("UTC");
+		$time = $bookingTime;		
+		$temptime = strtotime($time);
 		$starttime = date('Y-m-d H:i:s',strtotime('-15 minutes', $temptime));
 		$endtime = date('Y-m-d H:i:s',strtotime('+60 minutes', $temptime));
 		
@@ -119,12 +122,12 @@
 				$result = getQueryResult($sql);
 				if ($row = mysqli_fetch_assoc($result)) {					
 					$tempTime = $row['time_mel'];
-					//$tempTime = date("Y-m-d\TH:i:s\Z", strtotime($tempTime));
+					$tempTime = date("H:i", strtotime($tempTime));
 					$html = $html."<td style='text-align: center'>".$tempTime."</td>";
 				} else {
 					if($tempStopID == $optID){
 						$preStopTime = getPreStopTime($lineID,$dirID,$value2,$optID);
-						//$preStopTime = date("H:i", strtotime($preStopTime));
+						$preStopTime = date("H:i", strtotime($preStopTime));
 						$html = $html."<td style='text-align: center; background-color: #cc0000; color: white'><label><input class='optCheckbox' type='checkbox' name=$value2 value='$preStopTime'> ".$preStopTime."</label></td>";		
 					}
 					else $html = $html."<td style='text-align: center'> --- </td>";
