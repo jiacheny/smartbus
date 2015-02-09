@@ -12,7 +12,7 @@ $(document).ready(function(){
 		$("#directioninfo").empty();
 		var lineNumber = parseInt($(this).text());
 		$.ajax({
-		    url: "./systemView_Function.php",
+		    url: "./lines_Function.php",
 		    type: "POST",
 		    data: {"getDirectionInfo": lineNumber},
 		    dataType: "JSON",
@@ -35,22 +35,24 @@ $(document).ready(function(){
 		var lineID = document.getElementById(btnID).name;
 		var stopsReg, stopsOpt;
 		$.ajax({
-		    url: "./systemView_Function.php",
+		    url: "./lines_Function.php",
 		    type: "POST",
 		    data: {"getRegularStopsLocation": [lineID, dirID]},
 		    dataType: "JSON",
 		    async: false,
 		    success: function(data) {  	
+			    console.log(data);
 				stopsReg = data;
 			}
 		});
 		$.ajax({
-		    url: "./systemView_Function.php",
+		    url: "./lines_Function.php",
 		    type: "POST",
 		    data: {"getOptionalStopsLocation": [lineID, dirID]},
 		    dataType: "JSON",
 		    async: false,
-		    success: function(data) {  	
+		    success: function(data) {
+			    console.log(data); 	
 				stopsOpt = data;
 			}
 		});
@@ -58,7 +60,7 @@ $(document).ready(function(){
 	}
 	
 	function putMarkerOnMap(dataReg, dataOpt){
-		if (dataReg.length>0 && dataOpt.length>0) {
+		if (dataReg.length>0 || dataOpt.length>0) {
 			var sumlat=0, sumlon=0;
 			$.each(dataReg, function(key, val){
 				sumlat = sumlat + parseFloat(dataReg[key][1]);

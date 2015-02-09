@@ -19,33 +19,29 @@
 				$dirinfo = $dirinfo."<p><button class='pure-button' id='dirA' value=".$row['dir_id']." name=".$row['line_id']."> <b>To</b> ".$row['dir_name']." </button></p>";
 			else
 				$dirinfo = $dirinfo."<p><button class='pure-button' id='dirB' value=".$row['dir_id']." name=".$row['line_id']."> <b>To</b> ".$row['dir_name']." </button></p>";
+			$count++;
 		}
 		echo json_encode($dirinfo);
 	}
 	
 	function getRegularStopsLocation($lineID, $dirID) {
 		require_once 'database.php';
-		$sql = "select location_name, lat, lon from lineStopsOrder as l, stops as s where line_id=$lineID and dir_id=$dirID and s.stop_id = l.stop_id order by order_id";
+		$sql = "select location_name, lat, lon from stopsinorder, stops where regular=1 and line_id=$lineID and dir_id=$dirID and stopsinorder.stop_id=stops.stop_id order by order_id";
 		$result = getQueryResult($sql);
 		$stopsLocation = [];
 		while ($row = mysqli_fetch_assoc($result)) {
-			array_push($stopsLocation, [$row['location_name'], $row['lat'], $row['lon']]);
+			array_push($stopsLocation, [$row['location_name'], floatval($row['lat']), floatval($row['lon'])]);
 		}
 		echo json_encode($stopsLocation);
 	}
 	
 	function getOptionalStopsLocation($lineID, $dirID) {
-		$filepath = "data/stops/optional/$lineID/$dirID.xls";
+		require_once 'database.php';
+		$sql = "select location_name, lat, lon from stopsinorder, stopsOpt where regular=0 and line_id=$lineID and dir_id=$dirID and stopsinorder.stop_id=stopsOpt.stop_id order by order_id";
+		$result = getQueryResult($sql);
 		$stopsLocation = [];
-		if (file_exists($filepath)) {
-			$file = fopen($filepath, rb);
-			rewind($file);
-			while(!feof($file)){
-				$oneline = fgets($file);
-				$temp = explode("\t", $oneline);
-				array_push($stopsLocation, [trim($temp[1]), floatval(trim($temp[2])), floatval(trim($temp[3]))]);
-			}
-			fclose($file);
+		while ($row = mysqli_fetch_assoc($result)) {
+			array_push($stopsLocation, [$row['location_name'], floatval($row['lat']), floatval($row['lon'])]);
 		}
 		echo json_encode($stopsLocation);
 	}

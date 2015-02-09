@@ -12,7 +12,7 @@
 		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-		<script src="js/systemView.js"></script>
+		<script src="js/lines.js"></script>
 		<title>System View</title>
 	</head>
 
@@ -22,7 +22,7 @@
 			
 			<?php include './include/top.inc';?>
 			<div style="text-align: center">
-				<h2>System View</h2>
+				<h2>Smart Bus Lines Stops Information</h2>
 				<div id="routenumberinfo"> <?php showLineNumber(); ?> </div>
 				<div id="directioninfo"> 
 					<p><i class="fa fa-arrow-up"></i> Select a route above <i class="fa fa-arrow-up"></i></p> <p> and then select a direction </p> 
