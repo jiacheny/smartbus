@@ -9,6 +9,10 @@ $(document).ready(function(){
 	});
 	
 	$(".pure-button").click(function(){
+		$(".pure-button").each(function(){
+			$(this).css({"background-color":"#e6e6e6", "color":"black"});
+		});
+		$(this).css({"background-color":"#cc0000", "color":"white"});
 		$("#directioninfo").empty();
 		var lineNumber = parseInt($(this).text());
 		$.ajax({
@@ -23,10 +27,14 @@ $(document).ready(function(){
 	})
 	
 	$("#directioninfo").on("click", '#dirA', function(){
+		$(this).css({"background-color":"#cc0000", "color":"white"});
+		$("#dirB").css({"background-color":"#e6e6e6", "color":"black"});
 		updateMapWithStops("dirA");
 	})
 	
 	$("#directioninfo").on("click", '#dirB', function(){
+		$(this).css({"background-color":"#cc0000", "color":"white"});
+		$("#dirA").css({"background-color":"#e6e6e6", "color":"black"});
 		updateMapWithStops("dirB");
 	})
 	
@@ -40,8 +48,7 @@ $(document).ready(function(){
 		    data: {"getRegularStopsLocation": [lineID, dirID]},
 		    dataType: "JSON",
 		    async: false,
-		    success: function(data) {  	
-			    console.log(data);
+		    success: function(data) {
 				stopsReg = data;
 			}
 		});
@@ -52,7 +59,6 @@ $(document).ready(function(){
 		    dataType: "JSON",
 		    async: false,
 		    success: function(data) {
-			    console.log(data); 	
 				stopsOpt = data;
 			}
 		});
