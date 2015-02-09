@@ -46,11 +46,11 @@ $(document).ready(function(){
 		var date = $("#selectDate").val();
 		var hour = $("#selectHour").val();
 		var minute = $("#selectMinute").val();
-		var bookingTime = date+"T"+hour+":"+minute+":00Z";
+		var searchTime = date+"T"+hour+":"+minute+":00Z";
 		$.ajax({
 		    url: "./Booking_Function.php",
 		    type: "POST",
-		    data: {"timetableWorkflow": [lineID, dirID, optID, bookingTime]},
+		    data: {"timetableWorkflow": [lineID, dirID, optID, searchTime]},
 		    dataType: "JSON",
 		    async: false,
 		    success: function(data) { 
@@ -64,11 +64,10 @@ $(document).ready(function(){
 		var lineID = $("#selectLine").val();
 		var dirID = $("#selectDirection").val();
 		var optID = $("#selectStops").val();
-		console.log(lineID, dirID, optID);
+		var date = $("#selectDate").val();
 		$(".optCheckbox:checked").each(function(){
 			var runID = $(this).attr('name');
-			var arrivaltime = $(this).val();
-			console.log(runID, arrivaltime);
+			var arrivaltime = date+"T"+$(this).val()+":00Z";
 			$.ajax({
 			    url: "./Booking_Function.php",
 			    type: "POST",
@@ -76,8 +75,6 @@ $(document).ready(function(){
 			    dataType: "JSON",
 			    async: false,
 			    success: function(data) { 
-				    console.log("hellosdasdasds");
-				    console.log(data);
 					$("#timetable").append(data);
 				}
 			});	

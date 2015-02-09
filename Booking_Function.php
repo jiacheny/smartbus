@@ -40,10 +40,12 @@
 	}
 	if (isset($_POST['selectStops'])) { selectStops($_POST['selectStops']); }
 	
+	//written by Ran Jing
 	function timetableWorkflow ($inputdata){
 			
 		require_once('database.php');
 		require_once('API_Function.php');
+		
 		$lineID = $inputdata[0];
 		$dirID = $inputdata[1];
 		$optID = $inputdata[2];		
@@ -68,12 +70,6 @@
 	
 	//written by Ran Jing
 	function displayTimetable($lineID, $dirID, $optID, $bookingTime){
-		
-		//require_once('API_function.php');
-		/*$lineID = $inputdata[0];
-		$dirID = $inputdata[1];
-		$optID = $inputdata[2];
-		$bookingTime = $inputdata[3];*/
 		
 		$html = "";
 		$conn = createConnection ();
@@ -111,7 +107,6 @@
 		}
 
 		//display timetable
-		
 		$html = "<br><table class='pure-table pure-table-bordered'>";
 		foreach ($stopIDs as $key => $value) {
 			$html = $html."<tr>";
@@ -128,7 +123,7 @@
 					if($tempStopID == $optID){
 						$preStopTime = getPreStopTime($lineID,$dirID,$value2,$optID);
 						$preStopTime = date("H:i", strtotime($preStopTime));
-						$html = $html."<td style='text-align: center; background-color: #cc0000; color: white'><label><input class='optCheckbox' type='checkbox' name=$value2 value='$preStopTime'> ".$preStopTime."</label></td>";		
+						$html = $html."<td style='text-align: center; background-color: #cc0000; color: white'><label><input class='optCheckbox' type='checkbox' name=$value2 value='$preStopTime'> ".$preStopTime."</label></td>";
 					}
 					else $html = $html."<td style='text-align: center'> --- </td>";
 				}
@@ -139,42 +134,27 @@
 		return $html;
 	}
  	
- 	
+ 	//written by Ran Jing
  	function checkTimetable ($lineID, $dirID, $time){
-	 	
 	 	require_once("database.php");
-		
 		$check = 0;
-		$conn = createConnection ();
-	
 		$sql = "select distinct date_mel from timetable";
-
 		$result = getQueryResult($sql);
 		$tempDate = [];
 		while($row = mysqli_fetch_assoc($result)){
-			
 			$temp = $row['date_mel'];
-			
 			array_push($tempDate, $temp);
 		}
-		
 		$checkDate = date('Y-m-d',strtotime($time));
-		
 		foreach($tempDate as $key => $value){
-	
-			
 			$haveDate = $value;
 			if($checkDate == $haveDate){
 				$check = 1;
-				continue ;
+				break;
 			}
-		
 			$check = 0;
-		
 		}
-	
 		return $check;
-	
 	}
 	
 	
@@ -260,19 +240,20 @@
 		$html ="";
 		while ($row = mysqli_fetch_assoc($result)) {
 			$passengerid = $row['id'];
-			$passengerid = 9;
 			$sql2 = "INSERT INTO booking (passenger_id, line_id, dir_id, stop_id, run_id, arrival_time, booking_time) VALUES ($passengerid, $lineID, $dirID, $stopID, $runID, '$arrivaltime', '$bookingTime_utc')";
+			$html = $html;
 			$conn = createConnection ();
 			if(mysqli_query($conn, $sql2)) {
-				$html = $html."<p> The stop $stopID at ".date("H:i", strtotime($arrivaltime))." is booked successfully.</p>";
+				$html = $html."<p> <i class='fa fa-check-square-o'></i> ".getStopName ($lineID, $dirID, $stopID)." at ".date("H:i", strtotime($arrivaltime))." is booked successfully.</p>";
 			} else {
-				$html = $html."<p style='color: rgb(202, 60, 60);'> The stop $stopID at ".date("H:i", strtotime($arrivaltime))." is booked <b>unsuccessful</b>.</p>";
+				$html = $html."<p style='color:#cc0000;'> <b><i class='fa fa-exclamation-triangle'></i>WARNING</b>: ".getStopName ($lineID, $dirID, $stopID)." at ".date("H:i", strtotime($arrivaltime))." is booked <b>UNSUCCESSFULLY</b>.</p>";
 			}
 		}
 		echo json_encode($html);
 	}
 	if (isset($_POST['createBooking'])) { createBooking($_POST['createBooking']); }
 	
+	//written by Jiachen Yan
 	function displayBookingHistory () {
 		
 		require_once('database.php');

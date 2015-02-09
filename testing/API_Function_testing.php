@@ -100,7 +100,6 @@
 	
 	function generateTimetable($lineID,$dirID,$time){
 		
-		echo " in time is ".$time."<br>";
 		$timetable = [];
 		$sql="select stop_id from lineStopsOrder where dir_id = $dirID and line_id = $lineID order by order_id ";
 		$result = getQueryResult($sql);
@@ -122,9 +121,7 @@
 				$utcToMelTime = utcToMel ($time);
 				date_default_timezone_set("Australia/Melbourne");
 				$date_mel = $utcToMelTime;
-				//echo $time;
 				$sql = "INSERT INTO timetable (line_id, dir_id, run_id, stop_id, date_mel, time_utc, time_mel) VALUES ($lineID, $dirID, $runID, $stopID, '$date_mel', '$time_utc', '$time_mel')";
-				
 				if (mysqli_query($conn, $sql)) {
 					//echo "New record created successfully<br>";
 				} else {

@@ -10,6 +10,7 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
 		<link rel="stylesheet" type="text/css" href="./css/mystyle.css">
+		<link rel="stylesheet" type="text/css" href="./css/font-awesome-4.3.0/css/font-awesome.min.css"/>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="js/booking.js"></script>
 		<title>Booking</title>
