@@ -6,7 +6,7 @@
 		<ul>
 			<li> <a href="index.php"> HOME </a> </li>
 			<li> <a href="lines.php"> LINES </a> </li>
-			<li> <a href=""> SYSTEM VIEW </a> </li>
+			<li> <a href="systemView.php"> SYSTEM VIEW </a> </li>
 			<li> <a href="login.php"> LOGIN </a> </li>
 			<li> <a href="about.php"> ABOUT </a> </li>
 		</ul>

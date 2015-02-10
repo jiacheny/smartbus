@@ -16,9 +16,9 @@
 		$count = 0;
 		while ($row = mysqli_fetch_assoc($result)) {
 			if ($count==0)
-				$dirinfo = $dirinfo."<p><button class='pure-button' id='dirA' value=".$row['dir_id']." name=".$row['line_id']."> <b>To</b> ".$row['dir_name']." </button></p>";
+				$dirinfo = $dirinfo."<p><button class='pure-button' id='dirA' value=".$row['dir_id']." name=".$row['line_id']."> <i class='fa fa-arrow-circle-right'></i>  ".$row['dir_name']." </button></p>";
 			else
-				$dirinfo = $dirinfo."<p><button class='pure-button' id='dirB' value=".$row['dir_id']." name=".$row['line_id']."> <b>To</b> ".$row['dir_name']." </button></p>";
+				$dirinfo = $dirinfo."<p><button class='pure-button' id='dirB' value=".$row['dir_id']." name=".$row['line_id']."> <i class='fa fa-arrow-circle-right'></i>  ".$row['dir_name']." </button></p>";
 			$count++;
 		}
 		echo json_encode($dirinfo);

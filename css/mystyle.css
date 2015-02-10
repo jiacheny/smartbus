@@ -1,7 +1,12 @@
 body {
 	min-width: 1072px;
-	font-family: Arial;
+	font-family: Arial, FontAwesome;
 	background-image: url("../images/bg.gif");
+}
+
+@font-face {
+	font-family: FontAwesome;
+	src: url("font-awesome-4.3.0/fonts/FontAwesome.otf");
 }
 
 header {
@@ -153,6 +158,11 @@ form {
 	height: 100px;
 }
 
+#directioninfo p {
+	line-height: 30px;
+	vertical-align: middle;
+}
+
 #searchdiv {
 	margin: auto;
 	text-align: center;
@@ -188,4 +198,24 @@ form {
 
 #timetable table {
 	margin: auto;
+}
+
+#systemView {
+	min-height: 500px;
+}
+
+#svform {
+	width: 100%;
+}
+
+#svform select {
+	width: 35%;
+}
+
+#svform .searchLabel {
+	width: 20%;
+}
+
+#runs {
+	padding-bottom: 20px;	
 }

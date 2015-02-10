@@ -21,7 +21,7 @@
 			<?php include './include/top.inc';?>
 			<p><h2 style="text-align: center">BOOKING</h2></p>
 			<div id="searchdiv">
-				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get" id='searchform'>
+				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id='searchform'>
 					<div>
 						<label class="searchLabel"> Bus Line </label>
 						<select class="searchSelect" id="selectLine"> 
