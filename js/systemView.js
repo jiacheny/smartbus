@@ -2,11 +2,10 @@
 $(document).ready(function(){
 	
 	$("#selectLine").change(function(){
-		
 		$("#selectDirection").empty();
 		$("#selectRunDate").empty();
 		document.getElementById("selectRunDate").disabled = true;
-		
+		$("#runs").empty();
 		var lineID = $("#selectLine").val();
 		$.ajax({
 		    url: "./Booking_Function.php",
@@ -21,9 +20,9 @@ $(document).ready(function(){
 	})
 	
 	$("#selectDirection").change(function(){
-		
 		var lineID = $("#selectLine").val();
 		var dirID = $("#selectDirection").val();
+		$("#runs").empty();
 		
 		$.ajax({
 		    url: "./systemView_Function.php",
@@ -38,9 +37,7 @@ $(document).ready(function(){
 		
 	})
 	
-	
 	$("#getRunsBtn").click(function(){
-		
 		var lineID = $("#selectLine").val();
 		var dirID = $("#selectDirection").val();
 		var runDate = $("#selectRunDate").val();
@@ -53,10 +50,14 @@ $(document).ready(function(){
 				$("#runs").html(data);
 			}
 		});	
-		
 	})
 	
-	
+	$("#runs").on("click", ".pure-button", function() {
+		
+		var runID = $(this).attr("name");
+		console.log(runID);
+		
+	})
 	
 	
 	
