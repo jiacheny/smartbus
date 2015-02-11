@@ -45,6 +45,7 @@
 						<label class="searchLabel"> Date </label>
 						<select class="searchSelect" id="selectDate">
 							<option> Select A Date </option>
+							<option value=<?php echo utcToMelDate(date("Y-m-d\TH:i:s\Z", strtotime("-1 day"))); ?>> Yesterday </option>
 							<option value=<?php echo utcToMelDate(date("Y-m-d\TH:i:s\Z")); ?> > Today </option>
 							<option value=<?php echo utcToMelDate(date("Y-m-d\TH:i:s\Z", strtotime("+1 day"))); ?>> Tomorrow </option>
 						</select>

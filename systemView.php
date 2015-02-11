@@ -11,6 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="./css/font-awesome-4.3.0/css/font-awesome.min.css"/>
 		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 		<script src="js/systemView.js"></script>
 		<title>System View</title>
 	</head>
@@ -48,7 +49,11 @@
 						</form>
 						<div id="runs"> </div>
 					</div>
-					<div class="pure-u-3-4" id="view">  </div>
+					<div class="pure-u-3-4" id="view">
+						<div id="runInfo"> </div>
+						<div id="map" style="min-width: 804px; width: 100%; height: 700px; margin: auto;"> </div>
+						<div id='legend'> </div>
+					</div>
 				</div>
 			</div>
 			<?php include './include/footer.inc';?>

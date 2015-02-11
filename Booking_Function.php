@@ -227,28 +227,40 @@
 	function createBooking($inputdata) {
 		
 		require_once('database.php');
-		
+		require_once('API_Function.php');
 		$passengerUsername = $_SESSION['passenger']['username'];
 		$lineID = $inputdata[0];
 		$dirID = $inputdata[1];
 		$stopID = $inputdata[2];
 		$runID = $inputdata[3];
 		$arrivaltime = $inputdata[4];
-		$bookingTime_utc = date("Y-m-d\TH:i:s\Z");
+		$bookingTime_utc = date("Y-m-d\TH:i:s\Z", strtotime("+15 minutes"));
+		$bookingTime = utcToMel ($bookingTime_utc);
 
 		$sql1 = "select * from passenger where username='$passengerUsername'";
 		$result = getQueryResult($sql1);
 		$html ="";
-		while ($row = mysqli_fetch_assoc($result)) {
-			$passengerid = $row['id'];
-			$sql2 = "INSERT INTO booking (passenger_id, line_id, dir_id, stop_id, run_id, arrival_time, booking_time) VALUES ($passengerid, $lineID, $dirID, $stopID, $runID, '$arrivaltime', '$bookingTime_utc')";
-			$html = $html;
-			$conn = createConnection ();
-			if(mysqli_query($conn, $sql2)) {
-				$html = $html."<p> <i class='fa fa-check-square-o'></i> ".getStopName ($lineID, $dirID, $stopID)." at ".date("H:i", strtotime($arrivaltime))." is booked successfully.</p>";
-			} else {
-				$html = $html."<p style='color:#cc0000;'> <b><i class='fa fa-exclamation-triangle'></i>WARNING</b>: ".getStopName ($lineID, $dirID, $stopID)." at ".date("H:i", strtotime($arrivaltime))." is booked <b>UNSUCCESSFULLY</b>.</p>";
+		if ( strtotime($arrivaltime) > strtotime(utcToMel ($bookingTime_utc)) ) {
+			while ($row = mysqli_fetch_assoc($result)) {
+				$passengerid = $row['id'];
+				$sql3 = "select count(*) from booking where passenger_id=$passengerid and line_id=$lineID and dir_id=$dirID and stop_id=$stopID and run_id=$runID and arrival_time='$arrivaltime'";
+				$result3 = getQueryResult($sql3);
+				$row3 = mysqli_fetch_assoc($result3);
+				if ($row3['count(*)']!=0) {
+					$html = $html."<p style='color:#cc0000;'> <b><i class='fa fa-exclamation-triangle'></i> WARNING</b>: You have booked this stop before. This booking action is not successful.</p>";
+				} else {
+					$sql2 = "INSERT INTO booking (passenger_id, line_id, dir_id, stop_id, run_id, arrival_time, booking_time) VALUES ($passengerid, $lineID, $dirID, $stopID, $runID, '$arrivaltime', '$bookingTime')";
+					$html = $html;
+					$conn = createConnection ();
+					if(mysqli_query($conn, $sql2)) {
+						$html = $html."<p> <i class='fa fa-check-square-o'></i> ".getStopName ($lineID, $dirID, $stopID)." at ".date("H:i", strtotime($arrivaltime))." is booked successfully.</p>";
+					} else {
+						$html = $html."<p style='color:#cc0000;'> <b><i class='fa fa-exclamation-triangle'></i>WARNING</b>: ".getStopName ($lineID, $dirID, $stopID)." at ".date("H:i", strtotime($arrivaltime))." is booked <b>UNSUCCESSFULLY</b>.</p>";
+					}
+				}
 			}
+		} else {
+			$html = $html."<p style='color:#cc0000;'> <b><i class='fa fa-exclamation-triangle'></i>WARNING</b>: The bus has passed this stop or the booking time is not 15 minutes in advance. Your booking is not successful.";
 		}
 		echo json_encode($html);
 	}
@@ -268,7 +280,7 @@
 		$sql2 = "select booking_time, line_number, dir_name, location_name, arrival_time from booking as b, passenger as p, line as l, stopsOpt as s, direction as d 
 			where b.passenger_id=p.id and b.line_id=l.line_id and s.stop_id=b.stop_id and d.dir_id=b.dir_id and b.line_id=d.line_id and b.passenger_id=$passengerid order by booking_time desc";
 		$result = getQueryResult($sql2);
-		$html =  "<div id='historydiv'><table class='pure-table pure-table-bordered'><caption><h2> Booking History </h2></caption>";
+		$html =  "<div id='historydiv'><table class='pure-table pure-table-bordered'><caption><h2><i class='fa fa-history'></i> Booking History </h2></caption>";
 		$html = $html."<thead style='text-align: center'> <tr> <th>Booking Time</th><th>Line</th><th>Direction</th><th>Stops</th><th>Arrival Time</th> </tr> </thead> <tbody>";
 		while ($row=mysqli_fetch_assoc($result)) {
 			$html = $html."<tr>";
