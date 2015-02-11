@@ -96,7 +96,8 @@
 													from stopsInorder
 													where line_id = $lineID
 													and dir_id = $dirID
-													and stop_id = $optID )				
+													and stop_id = $optID )	
+									and dir_id = $dirID			
 				)
 				order by time_mel";
 		$result = getQueryResult($sql);
@@ -113,7 +114,7 @@
 			$html = $html."<td>".getStopName($lineID,$dirID,$value)."</td>";
 			$tempStopID = $value;
 			foreach ($runIDs as $key2 => $value2) {
-				$sql = "select t.stop_id, run_id, time_mel from timetable as t, stops as s where t.stop_id=s.stop_id and t.stop_id=$value and run_id=$value2";
+				$sql = "select t.stop_id, run_id, time_mel from timetable as t, stops as s where t.stop_id=s.stop_id and t.stop_id=$value and t.run_id=$value2";
 				$result = getQueryResult($sql);
 				if ($row = mysqli_fetch_assoc($result)) {					
 					$tempTime = $row['time_mel'];
@@ -192,8 +193,8 @@
 						 						from stopsInorder
 						 						where line_id = $lineID
 						 						and dir_id = $dirID
-						 						and stop_id = $optID
-						 )
+						 						and stop_id = $optID)
+						 		and dir_id = $dirID
 		)";
 		$result = getQueryResult($sql);
 		$row = mysqli_fetch_assoc($result);
