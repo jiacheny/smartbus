@@ -10,9 +10,9 @@
 
 <body>
 
-	<div style="background-color: white">
+	<div id="container">
+		
 		<?php include './include/top.inc';?>
-	
 		<main>
 		
 		    <div id="introduction">
@@ -43,7 +43,6 @@
 		    </div>
 		    
 		</main>
-		
 		<?php include './include/footer.inc';?>
 	</div>
     

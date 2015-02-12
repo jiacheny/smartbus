@@ -18,7 +18,7 @@
 
 	<body>
 			
-		<div style="background-color: white">
+		<div id="container">
 			
 			<?php include './include/top.inc';?>
 			<div style="text-align: center">

@@ -27,7 +27,7 @@
 		$html = "";
 		while ($row = mysqli_fetch_assoc($result)) {
 			$time = substr($row['time'], 0, 5);
-			$html = $html."<input type='button' class='pure-button' name=".$row['run_id']."  value='&#xf017; ".$time."' style='font-family: Arial, FontAwesome; background-color: white; width: 30%;'>";
+			$html = $html."<input type='button' class='pure-button' name=".$row['run_id']."  value='&#xf017; ".$time."'>";
 		}
 		echo json_encode($html);
 	}
@@ -46,7 +46,6 @@
 		$row = mysqli_fetch_assoc($result);
 		$html = $html."<h3> <i class='fa fa-bus'></i> ".$row['line_number']." -- To ".$row['dir_name']." </h3>";
 		$html = $html."<p style='font-family: Arial, FontAwesome;'> This run (id: $runID) starts at $startTime on &#xf073 $runDate. </p>";
-		
 		$html = $html.getOptStopsInfo($inputdata);
 		$html = $html.getIndivInfo($lineID, $dirID, $runID, $runDate);
 		echo json_encode($html);

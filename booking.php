@@ -17,7 +17,7 @@
 	</head>
 
 	<body>
-		<div style="background-color: white">
+		<div id="container">
 			<?php include './include/top.inc';?>
 			<p><h2 style="text-align: center">BOOKING</h2></p>
 			<div id="searchdiv">

@@ -234,13 +234,17 @@
 		$stopID = $inputdata[2];
 		$runID = $inputdata[3];
 		$arrivaltime = $inputdata[4];
-		$bookingTime_utc = date("Y-m-d\TH:i:s\Z", strtotime("+15 minutes"));
+		
+		date_default_timezone_set("UTC");
+		$bookingTime_utc = date("Y-m-d\TH:i:s\Z");
+		$constraint_utc = date("Y-m-d\TH:i:s\Z", strtotime("+15 minutes"));
 		$bookingTime = utcToMel ($bookingTime_utc);
+		$constraint = utcToMel ($constraint_utc);
 
 		$sql1 = "select * from passenger where username='$passengerUsername'";
 		$result = getQueryResult($sql1);
 		$html ="";
-		if ( strtotime($arrivaltime) > strtotime(utcToMel ($bookingTime_utc)) ) {
+		if ( strtotime($arrivaltime) > strtotime($constraint) ) {
 			while ($row = mysqli_fetch_assoc($result)) {
 				$passengerid = $row['id'];
 				$sql3 = "select count(*) from booking where passenger_id=$passengerid and line_id=$lineID and dir_id=$dirID and stop_id=$stopID and run_id=$runID and arrival_time='$arrivaltime'";
