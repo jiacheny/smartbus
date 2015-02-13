@@ -57,10 +57,11 @@
 		
 		$check = checkTimetable ($lineID, $dirID, $bookingTime); 
 		
-		if($check){
+		if($check) {
 			$html = displayTimetable($lineID, $dirID, $optID, $bookingTime);
-		} else {			
+		} else {
 			generateTimetable($lineID, $dirID, $bookingUTCTime);
+			autoDriverAllocation ($lineID, $dirID, $searchTime);
 			$html = displayTimetable($lineID, $dirID, $optID, $bookingTime);
 		}
 		
@@ -221,6 +222,32 @@
 		$orderRunID = $row['run_id'];
 		$return $orderRunID;
 	}*/
+
+	//written by Jiachen Yan
+	function autoDriverAllocation ($lineID, $dirID, $searchTime) {
+		require_once('database.php');
+		$date_mel = date("Y-m-d", strtotime($searchTime));
+		$sql = "select distinct run_id from timetable where date_mel='$date_mel' and line_id=$lineID and dir_id=$dirID order by time_mel";
+		$runIDsResult = getQueryResult($sql);
+		$sql = "select id from driver";
+		$driverIDsResult = getQueryResult($sql);
+		$driverIDs =[];
+		while ($row = mysqli_fetch_assoc($driverIDsResult)){
+			array_push($driverIDs, $row['id']);
+		}
+		$count = 0;
+		$conn = createConnection();
+		while ($row = mysqli_fetch_assoc($runIDsResult)) {
+			$runID = $row['run_id'];
+			$driverID = $driverIDs[$count];
+			$sql = "INSERT shifts (date_mel, line_id, dir_id, run_id, driver_id) Values ('$date_mel', $lineID, $dirID, $runID, $driverID)";
+			mysqli_query($conn, $sql);
+			$count++;
+			if ($count>=count($driverIDs))
+				$count = 0;
+		}
+		$conn -> close();
+	}
 
 
 	//written by Jiachen Yan

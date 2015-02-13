@@ -12,7 +12,7 @@
 		<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-		<script src="js/admin.js"></script>
+		<script src="js/systemView.js"></script>
 		<title>System View</title>
 	</head>
 
@@ -24,10 +24,6 @@
 			<div style="text-align: center">
 				<h3 id="adminTitle"> ADMINISTRATION </h3>
 				<div class="pure-g" id="systemView">
-					<div class="pure-u-1-6">
-						<input type="button" class="pure-button" id="svBtn" clicked="true" style="background-color: #cc0000; color: white" value="System View">
-						<input type="button" class="pure-button" id="smBtn" clicked="false" style="background-color: white" value="Shift Management">
-					</div>
 					<div class="pure-u-1-4" id="infoSelect">
 						<div id="svform">
 							<form>
@@ -53,9 +49,9 @@
 						</div>
 						<div id="runs"> </div>
 					</div>
-					<div class="pure-u-7-12" id="view">
+					<div class="pure-u-3-4" id="view">
 						<div id="runInfo"> </div>
-						<div id="map" style="width: 95%; height: 700px; margin: auto;"> </div>
+						<div id="map"> </div>
 						<div id="legend" style="display: none;">
 							<img src='images/originalmarker.png'> <span> Regular Stops </span> 
 							<img src='images/greenmarker.png'> <span> Optional Stops is Booked </span> 

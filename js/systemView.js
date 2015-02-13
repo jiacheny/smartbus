@@ -1,20 +1,6 @@
 // wriiten by Jiachen Yan
 $(document).ready(function(){
 	
-	$("#smBtn").click(function(){
-		$("#svBtn").css({"background-color":"white", "color":"black"});
-		$("#svBtn").attr("clicked","false");
-		$(this).css({"background-color":"#cc0000", "color":"white"});
-		$(this).attr("clicked","true");
-	})
-	
-	$("#svBtn").click(function(){
-		$("#smBtn").css({"background-color":"white", "color":"black"});
-		$("#smBtn").attr("clicked","false");
-		$(this).css({"background-color":"#cc0000", "color":"white"});
-		$(this).attr("clicked","true");
-	})
-	
 	$("#selectLine").change(function(){
 		$("#selectDirection").empty();
 		$("#selectRunDate").empty();
@@ -74,49 +60,43 @@ $(document).ready(function(){
 		var startTime = $(this).val();
 		$("#runs").find(".pure-button").css({"background-color":"white", "color":"black"});
 		$(this).css({"background-color":"#cc0000", "color":"white"});
-		if ($("#svBtn").attr("clicked")=="true") {
-			$("#view").empty();
-			$("#view").append("<div id='runInfo'> </div>");
-			$("#view").append("<div id='map' style='width: 95%; height: 700px; margin: auto;'> </div>");
-			$("#view").append("<div id='legend' style='display: none;'> <img src='images/originalmarker.png'> <span> Regular Stops </span> <img src='images/greenmarker.png'> <span> Optional Stops is Booked </span> <img src='images/bluemarker.png'> <span> Optional Stops Not Booked Yet</span> </p> </div>");
-			$.ajax({
-			    url: "./systemView_Function.php",
-			    type: "POST",
-			    data: {"viewWorkFlow": [lineID, dirID, runDate, runID, startTime]},
-			    dataType: "JSON",
-			    success: function(data) {
-				    $("#runInfo").empty();
-					$("#runInfo").append(data);
-					loadmaps(lineID, dirID, runDate, runID);
-					$("#legend").show();
-				}
-			});
-		}
-		if ($("#smBtn").attr("clicked")=="true") {
-			$("#view").empty();
-			$("#view").append("<div id='shiftInfo'> </div>");
-			$("#view").append("<div id='allocation'><p> Choose a driver below to allocate to this run or replace the driver above. </p> <p> <select id='drivers'> </select> </p> <input type='button' class='pure-button pure-button-primary' value='Allocate'> </div>");
-			$.ajax({
-			    url: "./shiftMgmt_Function.php",
-			    type: "POST",
-			    data: {"shiftWorkFlow": [lineID, dirID, runDate, runID, startTime]},
-			    dataType: "JSON",
-			    success: function(data) {
-				    $("#shiftInfo").empty();
-				    $("#shiftInfo").append(data);
-				}
-			});
-			$.ajax({
-			    url: "./shiftMgmt_Function.php",
-			    type: "POST",
-			    data: {"getDriver": "call"},
-			    dataType: "JSON",
-			    success: function(data) {
-				    $("#drivers").append(data);
-				}
-			});
-
-		}	
+		$("#view").empty();
+		$("#view").append("<div id='runInfo'> </div>");
+		$("#view").append("<div id='shiftInfo'> </div>");
+		$("#view").append("<div id='allocation'><p> Choose a driver below to replace the driver above. </p> <p> <select id='drivers'> </select> </p> <input type='button' class='pure-button pure-button-primary' value='Allocate'> </div>");
+		$("#view").append("<div id='map' style='width: 95%; height: 700px; margin: auto;'> </div>");
+		$("#view").append("<div id='legend' style='display: none;'> <img src='images/originalmarker.png'> <span> Regular Stops </span> <img src='images/greenmarker.png'> <span> Optional Stops is Booked </span> <img src='images/bluemarker.png'> <span> Optional Stops Not Booked Yet</span> </p> </div>");
+		$.ajax({
+		    url: "./systemView_Function.php",
+		    type: "POST",
+		    data: {"viewWorkFlow": [lineID, dirID, runDate, runID, startTime]},
+		    dataType: "JSON",
+		    success: function(data) {
+			    $("#runInfo").empty();
+				$("#runInfo").append(data);
+				loadmaps(lineID, dirID, runDate, runID);
+				$("#legend").show();
+			}
+		});
+		$.ajax({
+		    url: "./systemView_Function.php",
+		    type: "POST",
+		    data: {"shiftWorkFlow": [lineID, dirID, runDate, runID, startTime]},
+		    dataType: "JSON",
+		    success: function(data) {
+			    $("#shiftInfo").empty();
+			    $("#shiftInfo").append(data);
+			}
+		});
+		$.ajax({
+		    url: "./systemView_Function.php",
+		    type: "POST",
+		    data: {"getDriver": "call"},
+		    dataType: "JSON",
+		    success: function(data) {
+			    $("#drivers").append(data);
+			}
+		});
 	})
 	
 	function loadmaps (lineID, dirID, runDate, runID) {

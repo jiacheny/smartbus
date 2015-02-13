@@ -212,10 +212,6 @@ form {
 	padding-bottom: 1%;
 }
 
-#svBtn, #smBtm {
-	margin-bottom: 15px;
-}
-
 #systemView {
 	min-height: 500px;
 }
@@ -234,6 +230,16 @@ form {
 
 #svform .searchSelect {
 	width: 67%;
+}
+
+#view #map {
+	width: 95%; 
+	height: 700px; 
+	margin-top: auto;
+}
+
+#allocation {
+	margin-bottom: 10px;
 }
 
 #runs .pure-button {
