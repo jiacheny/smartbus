@@ -133,6 +133,7 @@
 			$html = $html."</tr>";
 		}
 		$html = $html."</table> <br> <input id='bookChecked' type='button' class='pure-button pure-button-primary' value='Book Selected Stop(s)'> <br>";
+		$html = $html."<div id='bookingFeedback'> </div>";
 		return $html;
 	}
  	

@@ -196,8 +196,32 @@
 	}
 	if (isset($_POST['getDriver'])) { getDriver(); }
 	
-	
-	
+	function allocateOneDriver($inputdata) {
+		require_once 'database.php';
+		$lineID = $inputdata[0];
+		$dirID = $inputdata[1];
+		$runDate = $inputdata[2];
+		$runID = $inputdata[3];
+		$driverUsername = $inputdata[4];
+		$htmlMsg = "";
+		$sql0 = "select count(*) from shifts where date_mel='$runDate' and line_id=$lineID and dir_id=$dirID and run_id=$runID and driver_id=(select id from driver where username='$driverUsername')";
+		$result = getQueryResult($sql0);
+		$row = mysqli_fetch_assoc($result);
+		if ($row['count(*)']==0) {
+			$sql = "update shifts set driver_id = (select id from driver where username='$driverUsername') where date_mel='$runDate' and line_id=$lineID and dir_id=$dirID and run_id=$runID";
+			$conn = createConnection ();
+			if (mysqli_query($conn, $sql)) {
+				$htmlMsg = $htmlMsg."<p> <i class='fa fa-check-square-o'></i> Driver $driverUsername is allocated to this run successfully. </p>";
+			} else {
+				$htmlMsg = $htmlMsg."<p style='color:#cc0000;'> <b><i class='fa fa-exclamation-triangle'></i> WARNING</b>: Allocation Failed. </p>";
+			}
+			$conn -> close();
+		} else {
+			$htmlMsg = $htmlMsg."<p style='color:#cc0000;'> <b><i class='fa fa-exclamation-triangle'></i> WARNING</b>: Driver $driverUsername has been allocated to this run already. Allocation failed. </p>";
+		}
+		echo json_encode($htmlMsg);
+	}
+	if (isset($_POST['allocateOneDriver'])) { allocateOneDriver($_POST['allocateOneDriver']); }
 	
 	
 	

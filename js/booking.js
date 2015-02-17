@@ -65,6 +65,7 @@ $(document).ready(function(){
 		var dirID = $("#selectDirection").val();
 		var optID = $("#selectStops").val();
 		var date = $("#selectDate").val();
+		var bookingMsg = "";
 		$(".optCheckbox:checked").each(function(){
 			var runID = $(this).attr('name');
 			var arrivaltime = date+"T"+$(this).val()+":00Z";
@@ -75,11 +76,13 @@ $(document).ready(function(){
 			    dataType: "JSON",
 			    async: false,
 			    success: function(data) { 
-					$("#timetable").append(data);
+				    bookingMsg = bookingMsg+data;
 				}
 			});	
 			
-		})		
+		})
+		$("#bookingFeedback").empty();
+		$("#bookingFeedback").append(bookingMsg);	
 	})
 		
 	$("#history").click(function(){

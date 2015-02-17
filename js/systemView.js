@@ -63,7 +63,8 @@ $(document).ready(function(){
 		$("#view").empty();
 		$("#view").append("<div id='runInfo'> </div>");
 		$("#view").append("<div id='shiftInfo'> </div>");
-		$("#view").append("<div id='allocation'><p> Choose a driver below to replace the driver above. </p> <p> <select id='drivers'> </select> </p> <input type='button' class='pure-button pure-button-primary' value='Allocate'> </div>");
+		$("#view").append("<div id='allocation'><p> Choose a driver below to replace the driver above. </p> <p> <select id='drivers'> </select> </p> <input type='button' id='allocateBtn' class='pure-button pure-button-primary' value='Allocate'> </div>");
+		$("#view").append("<div id='allocationFeedback'> </div>");
 		$("#view").append("<div id='map' style='width: 95%; height: 700px; margin: auto;'> </div>");
 		$("#view").append("<div id='legend' style='display: none;'> <img src='images/originalmarker.png'> <span> Regular Stops </span> <img src='images/greenmarker.png'> <span> Optional Stops is Booked </span> <img src='images/bluemarker.png'> <span> Optional Stops Not Booked Yet</span> </p> </div>");
 		$.ajax({
@@ -97,6 +98,19 @@ $(document).ready(function(){
 			    $("#drivers").append(data);
 			}
 		});
+		$("#allocateBtn").click(function() {
+			var driverUsername = $("#drivers").val();
+			$.ajax({
+			    url: "./systemView_Function.php",
+			    type: "POST",
+			    data: {"allocateOneDriver": [lineID, dirID, runDate, runID, driverUsername]},
+			    dataType: "JSON",
+			    success: function(data) {
+				    $("#allocationFeedback").empty();
+				    $("#allocationFeedback").append(data);
+				}
+			});
+		})
 	})
 	
 	function loadmaps (lineID, dirID, runDate, runID) {
@@ -189,6 +203,4 @@ $(document).ready(function(){
 
 	}
 
-	
-	
 })
