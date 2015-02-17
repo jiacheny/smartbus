@@ -34,6 +34,72 @@
 			throw new customException("Invalid ID or Password!");
 	}
 
+	//should move to driver_funtion.php later
 	
+	function loadShiftDate() {
+		$driverUsername = $_SESSION['driver']['username'];
+		$sql = "select distinct date_mel from shifts where driver_id=(select id from driver where username='$driverUsername') order by date_mel desc";
+		$result = getQueryResult($sql);
+		$html="";
+		while ($row=mysqli_fetch_assoc($result))
+			$html = $html."<option value=".$row['date_mel'].">".$row['date_mel']."</option>";
+		echo $html;
+	}
+	
+	function displayShiftsInit ($date) {
+		$driverUsername = $_SESSION['driver']['username'];
+		$html = "";
+		$sql1 = "select * from shifts as s, line as l , direction as d
+			where date_mel='$date' and driver_id=(select id from driver where username='D001') 
+				and l.line_id=s.line_id and s.line_id=d.line_id and s.dir_id=d.dir_id
+			order by s.line_id, s.dir_id, s.run_id";
+		$result1 = getQueryResult($sql1);
+		if (mysqli_num_rows($result1)>0) {
+			while ($row1=mysqli_fetch_assoc($result1)) {
+				$lineNumber = $row1['line_number'];
+				$lineID = $row1['line_id'];
+				$dirName = $row1['dir_name'];
+				$dirID = $row1['dir_id'];
+				$runID = $row1['run_id'];
+				$sql2 = "select time(time_mel) as time from timetable where line_id=$lineID and dir_id=$dirID and date_mel='$date' and time_mel>'$date 03:00:00' and run_id=$runID order by time_mel limit 1";
+				$result2 = getQueryResult($sql2);
+				while ($row2 = mysqli_fetch_assoc($result2)) {
+					$time = $row2['time'];
+					$time = substr($time, 0, 5);
+					$html= $html."<input type='button' class='pure-button' value='$lineNumber To $dirName start at $time'>";
+				}
+			}
+		} else {
+			$html = $html."<p> No Shifts Today. </p>";
+		}
+		echo $html;
+	}
+	
+	function displayShifts ($date) {
+		require_once("database.php");
+		$driverUsername = $_SESSION['driver']['username'];
+		$html = "";
+		$sql1 = "select * from shifts as s, line as l , direction as d
+			where date_mel='$date' and driver_id=(select id from driver where username='D001') 
+				and l.line_id=s.line_id and s.line_id=d.line_id and s.dir_id=d.dir_id
+			order by s.line_id, s.dir_id, s.run_id";
+		$result1 = getQueryResult($sql1);
+		while ($row1=mysqli_fetch_assoc($result1)) {
+			$lineNumber = $row1['line_number'];
+			$lineID = $row1['line_id'];
+			$dirName = $row1['dir_name'];
+			$dirID = $row1['dir_id'];
+			$runID = $row1['run_id'];
+			$sql2 = "select time(time_mel) as time from timetable where line_id=$lineID and dir_id=$dirID and date_mel='$date' and time_mel>'$date 03:00:00' and run_id=$runID order by time_mel limit 1";
+			$result2 = getQueryResult($sql2);
+			while ($row2 = mysqli_fetch_assoc($result2)) {
+				$time = $row2['time'];
+				$time = substr($time, 0, 5);
+				$html= $html."<input type='button' class='pure-button' value='$lineNumber To $dirName start at $time'>";
+			}
+		}
+		echo json_encode($html);
+	}
+	if (isset($_POST['displayShifts'])) { displayShifts($_POST['displayShifts']); }
 	
 ?>

@@ -100,7 +100,29 @@ $(document).ready(function(){
 
 	})
 		
+	$("#shiftDate").change(function(){
+		var date = $(this).val();
+		if (date!=0) {
+			$.ajax({
+			    url: "./login_Function.php",
+			    type: "POST",
+			    data: {"displayShifts": date},
+			    dataType: "JSON",
+			    success: function(data) {
+				    $("#shifts").empty();
+					$("#shifts").append(data);
+				}
+			});
+		} else {
+			$("#shifts").empty();
+		}
+	})
 		
+		
+	$("#shifts").on("click", ".pure-button", function(){
+		$("#shifts").find(".pure-button").css({"background-color":"white", "color":"black"});
+		$(this).css({"background-color":"#cc0000", "color":"white"});
+	})
 	
 	
 	

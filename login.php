@@ -30,7 +30,7 @@
 	
 	if(isset($_POST['logout'])) {
 		logout();
-		header('Location: index.php');
+		header('Location: login.php');
 	}
 ?>
 
@@ -96,18 +96,28 @@
 				</div>
 			<?php } elseif($_SESSION['driver']['status']) { ?>
 				<div id="universalLogin">
-					<form action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-						<div class="pure-control-group">
-							<?php echo $_SESSION['driver']['id'] ?>, Login Successfully! <br>
-							Your today's job shown below.
+					<div class="pure-g">
+						<div class="pure-u-1-3" id="driverLoginLeft">
+							<div>
+								<p> <b>Hello, <?php echo $_SESSION['driver']['username'] ?> </b> </p>
+								<p> Choose a date to see your shift </p>
+							</div>
+							<div>
+								<select id="shiftDate">
+									<option value=0> Select A Date </option>
+									<?php loadShiftDate() ?>
+								</select>
+								<br>
+								<div id="shifts"> <?php displayShiftsInit(utcToMelDate(date("Y-m-d"))); ?> </div>
+							</div>
+							<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+								<button type="submit" name="logout" value="logout" class="pure-button pure-button-primary" style="background-color: #cc0000"> <i class="fa fa-sign-out"></i> LOGOUT </button>
+							</form>
 						</div>
-						<div id="JobList">
+						<div class="pure-u-2-3">
 							
 						</div>
-						<br>
-						<button type="submit" name="logout" value="logout" class="pure-button pure-button-primary" style="background-color: #cc0000"> <i class="fa fa-sign-out"></i> LOGOUT </div>
-						<br>
-					</form>
+					</div>
 				</div>
 		
 			<?php } else { ?>

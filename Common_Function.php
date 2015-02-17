@@ -8,6 +8,7 @@
 	include 'database.php';
 	include 'lines_Function.php';
 	include 'systemView_Function.php';
+	include 'API_Function.php';
 	
 	//Custom Exception Class
 	class customException extends Exception

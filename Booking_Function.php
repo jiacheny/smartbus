@@ -61,7 +61,7 @@
 			$html = displayTimetable($lineID, $dirID, $optID, $bookingTime);
 		} else {
 			generateTimetable($lineID, $dirID, $bookingUTCTime);
-			autoDriverAllocation ($lineID, $dirID, $searchTime);
+			autoDriverAllocation ($lineID, $dirID, $bookingTime);
 			$html = displayTimetable($lineID, $dirID, $optID, $bookingTime);
 		}
 		
@@ -225,9 +225,9 @@
 	}*/
 
 	//written by Jiachen Yan
-	function autoDriverAllocation ($lineID, $dirID, $searchTime) {
+	function autoDriverAllocation ($lineID, $dirID, $bookingTime) {
 		require_once('database.php');
-		$date_mel = date("Y-m-d", strtotime($searchTime));
+		$date_mel = date("Y-m-d", strtotime($bookingTime));
 		$sql = "select distinct run_id from timetable where date_mel='$date_mel' and line_id=$lineID and dir_id=$dirID order by time_mel";
 		$runIDsResult = getQueryResult($sql);
 		$sql = "select id from driver";

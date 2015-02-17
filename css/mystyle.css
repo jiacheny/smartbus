@@ -138,6 +138,10 @@ form {
 	line-height: 50px;
 }
 
+#universalLogin div {
+	line-height: normal;
+}
+
 #about1, #about2 {
 	width: 46%;
 	height: 500px;
@@ -246,4 +250,14 @@ form {
 	font-family: Arial, FontAwesome; 
 	background-color: white; 
 	width: 30%; 
+}
+
+#shiftDate {
+	margin-bottom: 10px;
+}
+
+#shifts .pure-button {
+	font-family: Arial, FontAwesome; 
+	background-color: white; 
+	width: 90%; 
 }

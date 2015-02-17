@@ -18,15 +18,10 @@
 	}
 
 	function getQueryResult($sql) {
-		
 		$conn = createConnection ();
 		$result = mysqli_query($conn, $sql);
 		$conn -> close();
 		return $result;
-		
 	}
-
-
-
 
 ?>

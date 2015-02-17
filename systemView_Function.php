@@ -4,7 +4,7 @@
 		require_once 'database.php';
 		$lineID = $inputdata[0];
 		$dirID = $inputdata[1];
-		$sql = "select distinct date_mel from timetable where line_id=$lineID and dir_id=$dirID";
+		$sql = "select distinct date_mel from timetable where line_id=$lineID and dir_id=$dirID order by date_mel desc";
 		$result = getQueryResult($sql);
 		$html = "";
 		while ($row = mysqli_fetch_assoc($result))
