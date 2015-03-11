@@ -95,11 +95,47 @@
 			while ($row2 = mysqli_fetch_assoc($result2)) {
 				$time = $row2['time'];
 				$time = substr($time, 0, 5);
-				$html= $html."<input type='button' class='pure-button' value='$lineNumber To $dirName start at $time'>";
+				$html= $html."<input type='button' class='pure-button' data-line-id=$lineID data-dir-id=$dirID data-run-id=$runID value='$lineNumber To $dirName start at $time'>";
 			}
 		}
 		echo json_encode($html);
 	}
 	if (isset($_POST['displayShifts'])) { displayShifts($_POST['displayShifts']); }
 	
+	function displayShiftTimetable ($inputData) {
+		require_once("database.php");
+		$date = $inputData[0];
+		$lineID = $inputData[1];
+		$dirID = $inputData[2];
+		$runID = $inputData[3];
+		
+		$html = $html."<table class='pure-table pure-table-bordered' style='margin: 20px auto 20px auto'>";
+		
+		$sql1 = "select * from stopsInOrder where line_id=$lineID and dir_id=21 order by order_id";
+		$result1 = getQueryResult($sql1);
+		while ($row1 = mysqli_fetch_assoc($result1)) {
+			$html = $html."<tr>";
+			if ($row1['regular']) {
+				$stop_id = $row1['stop_id'];
+				$sql2 = "select * from stops where stop_id=$stop_id";
+				$result2 = getQueryResult($sql2);
+				$row2 = mysqli_fetch_assoc($result2);
+				$html = $html."<td>".$row2['location_name']."</td>";
+			} else {
+				$stop_id = $row1['stop_id'];
+				$sql2 = "select * from booking where line_id=$lineID and dir_id=$dirID and stop_id=$stop_id and run_id=$runID and arrival_time like '%$date%';";
+				$result2 = getQueryResult($sql2);
+				if (mysqli_num_rows($result2)>0) {
+					$sql3 = "select * from stopsOpt where stop_id=$stop_id";
+					$result3 = getQueryResult($sql3);
+					$row3 = mysqli_fetch_assoc($result3);
+					$html = $html."<td style='background-color: #cc0000; color: white'>".$row3['location_name']."</td>";
+				}
+			}
+			$html = $html."</tr>";
+		}
+		$html = $html."</table>";
+		echo json_encode($html);
+	}
+	if (isset($_POST['displayShiftTimetable'])) { displayShiftTimetable($_POST['displayShiftTimetable']); }
 ?>

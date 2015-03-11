@@ -117,11 +117,28 @@ $(document).ready(function(){
 			$("#shifts").empty();
 		}
 	})
-		
-		
+	
 	$("#shifts").on("click", ".pure-button", function(){
 		$("#shifts").find(".pure-button").css({"background-color":"white", "color":"black"});
 		$(this).css({"background-color":"#cc0000", "color":"white"});
+		
+		var date = $("#shiftDate").val();
+		var lineID = $(this).attr("data-line-id");
+		var dirID = $(this).attr("data-dir-id");
+		var runID = $(this).attr("data-run-id");
+		
+		$.ajax({
+		    url: "./login_Function.php",
+		    type: "POST",
+		    data: {"displayShiftTimetable": [date, lineID, dirID, runID]},
+		    dataType: "JSON",
+		    success: function(data) {
+			    $("#shiftTimetable").empty();
+			    $("#shiftTimetable").append(data);
+			}
+		});
+		
+		
 	})
 	
 	

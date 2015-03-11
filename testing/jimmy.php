@@ -1,6 +1,11 @@
 <?php
 	require_once('../Common_Function.php');
 		
-	autoDriverAllocation(7474, 21, "2015-02-17T09:00:00Z");
+	$date = "2015-03-12";
+	$lineID = 7474;
+	$dirID = 21;
+	$runID = 43642;
+	
+	displayShiftTimetable ([$date, $lineID, $dirID, $runID]);
 	
 ?>

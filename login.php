@@ -114,9 +114,7 @@
 								<button type="submit" name="logout" value="logout" class="pure-button pure-button-primary" style="background-color: #cc0000"> <i class="fa fa-sign-out"></i> LOGOUT </button>
 							</form>
 						</div>
-						<div class="pure-u-2-3">
-							
-						</div>
+						<div class="pure-u-2-3" id="shiftTimetable"> </div>
 					</div>
 				</div>
 		

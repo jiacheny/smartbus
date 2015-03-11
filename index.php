@@ -18,11 +18,13 @@
 		    <div id="introduction">
 		        <h1>Introduction:</h1>
 		
-				<p>SmartBus routes undergo 'bus-friendly' roadwork to improve reliability and the way buses move in and out of traffic. Bus lanes are introduced in high-delay locations and in some areas SmartBus buses have the ability to request traffic light priority.</p>
-				<p>New technology gives SmartBus buses the ability to communicate with their depot during a journey, and to provide real-time travel information to passengers at selected high-use bus stops. Bus-train interchanges also have signs with real-time information on SmartBus and train arrival times, making journey transitions smoother.</p>
-				<p>Bus stops along SmartBus routes are safer and are highly visible, because they have been designed to the Commonwealth Disability Discrimination Act (DDA) standards.</p>
-				<p>SmartBus stops feature tactile ground surface indicators and high contrast colour schemes that are used to meet the needs of people with a vision impairment. All SmartBus stops provide local area maps and stop specific timetables.</p>
-				<p>Low-floor buses are used on SmartBus routes. These buses are able to ‘meet’ the bus stop at the same level and eliminate a ‘step’ to board the bus.</p>
+				<p> Smart Bus System is currently running in Melbourne, Australia. This is project to try to improve the smart bus system even further. </p>
+				<p> The system has three main functionalities, the system view, passenger view and driver view. </p>
+				<ul>
+					<li> The system view provides users a summary view of a whole system. Users can view all runs in one day of one direction of one bus line. Information of one run includes the total number of optional stops, the total number of booked optional stops, the number of passengers who booked the stops, and Google Map which shows the regualr stops, booked optional stops and unbooked optional stops. </li>
+					<li> The passenger view is shown after a passenger log in. The view allows the passenger to book a optional stops of one direction of one line at a certain time. The view can also show the booking history of the passenger. </li>
+					<li> The driver view is shown after a driver log in. The view is able to show the next run which the driver need to work, and also all the shifts the driver has in the future. </li>
+				</ul>
 				
 		    </div>
 		    
