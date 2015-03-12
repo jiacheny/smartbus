@@ -19,7 +19,7 @@
 		        <h1>Introduction:</h1>
 		
 				<p> Smart Bus System is currently running in Melbourne, Australia. This is project to try to improve the smart bus system even further. </p>
-				<p> The system has three main functionalities, the system view, passenger view and driver view. </p>
+				<p> This project was done from Dec 2014 to Feb 2015 by Jiachen Yan and Ran Jing with two supervisors, Maria Spichkova and Margaret Hamilton. The system has three main functionalities, the system view, passenger view and driver view. </p>
 				<ul>
 					<li> The system view provides users a summary view of a whole system. Users can view all runs in one day of one direction of one bus line. Information of one run includes the total number of optional stops, the total number of booked optional stops, the number of passengers who booked the stops, and Google Map which shows the regualr stops, booked optional stops and unbooked optional stops. </li>
 					<li> The passenger view is shown after a passenger log in. The view allows the passenger to book a optional stops of one direction of one line at a certain time. The view can also show the booking history of the passenger. </li>

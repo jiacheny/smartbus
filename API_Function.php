@@ -95,40 +95,6 @@
 		return $date->format('Y-m-d');
 		
 	}
-
-	
-	/*
-	function utcToMel ($utcString) {
-		$utc = strtotime($utcString);
-		//date_default_timezone_set("UTC");
-		//$utctime = date('Y-m-d\TH:i:s\Z',$utc);	
-		date_default_timezone_set("Australia/Melbourne");
-		$mel = date('Y-m-d\TH:i:s\Z', $utc);
-		return $mel;
-	}
-	
-	function utcToMelDB ($utcString) {
-		$utc = strtotime($utcString);
-		
-		date_default_timezone_set("Australia/Melbourne");
-		$mel = date('Y-m-d H:i:s', $utc);
-		return $mel;
-	}
-	
-	function utcToMelDate ($utcString) {
-		$utc = strtotime($utcString);
-		date_default_timezone_set("Australia/Melbourne");
-		$mel = date('Y-m-d', $utc);
-		return $mel;
-	}
-	function utcToMelTime ($utcString) {
-		$utc = strtotime($utcString);
-		date_default_timezone_set("Australia/Melbourne");
-		$mel = date('H:i', $utc);
-		return $mel;
-	}
-	*/
-	
 	
 	function generateTimetable($lineID,$dirID,$time){
 		
