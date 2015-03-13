@@ -1,10 +1,8 @@
 <?php
 	session_start();
 	
-	include 'Driver_Function.php';
 	include 'login_Function.php';
 	include 'Booking_Function.php';
-	include 'upload.php';
 	include 'database.php';
 	include 'lines_Function.php';
 	include 'systemView_Function.php';
