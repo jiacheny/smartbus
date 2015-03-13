@@ -1,7 +1,7 @@
 <!--writen by ran jing  -->
 <?php
-	require_once("API_Function.php");
-	include 'database.php';
+	require_once '../API_Function.php';
+	include '../database.php';
 ?>
 
 <!DOCTYPE html>
